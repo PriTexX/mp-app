@@ -1,6 +1,6 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 
-import { useUserStore } from './store/useUserStore';
+import { useUserStore } from './src/store/useUserStore';
 
 export default function App() {
   const isLoggedIn = useUserStore((s) => s.isLoggedIn);

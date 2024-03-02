@@ -2309,7 +2309,7 @@
     semver "^7.5.4"
     ts-api-utils "^1.0.1"
 
-"@typescript-eslint/utils@7.1.0":
+"@typescript-eslint/utils@7.1.0", "@typescript-eslint/utils@^7.0.1":
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-7.1.0.tgz#710ecda62aff4a3c8140edabf3c5292d31111ddd"
   integrity sha512-WUFba6PZC5OCGEmbweGpnNJytJiLG7ZvDBJJoUcX4qZYf1mGZ97mO2Mps6O2efxJcJdRNpqweCistDbZMwIVHw==
@@ -3396,6 +3396,13 @@ eslint-plugin-prettier@^5.1.3:
   dependencies:
     prettier-linter-helpers "^1.0.0"
     synckit "^0.8.6"
+
+eslint-plugin-resulto@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-resulto/-/eslint-plugin-resulto-0.4.4.tgz#e46d25dd22c4bd0472817126f2f1f8838f6b2e6f"
+  integrity sha512-QtvUVmC0Ap+VUasCetmBQKGKH3CSJPeiQ3BjgcPNugtLTja4LFbsx0TtLRYxds4eANRl9yjTn34MDnW1O/FrtA==
+  dependencies:
+    "@typescript-eslint/utils" "^7.0.1"
 
 eslint-plugin-security@^2.1.1:
   version "2.1.1"
@@ -4581,6 +4588,11 @@ kleur@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
+
+ky@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/ky/-/ky-1.2.2.tgz#875b4132012ff7d8c12e5e884f35015676c436d2"
+  integrity sha512-gYA2QOI3uIaImJPJjaBbLCdvKHzwxsuB03s7PjrXmoO6tcn6k53rwYoSRgqrmVsEV6wFFegOXDVjABxFZ0aRSg==
 
 leven@^3.1.0:
   version "3.1.0"
@@ -6028,6 +6040,11 @@ restore-cursor@^3.1.0:
     onetime "^5.1.0"
     signal-exit "^3.0.2"
 
+resulto@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/resulto/-/resulto-0.4.4.tgz#0d46aff153304e79fe9555bc6eca98adbbf955e0"
+  integrity sha512-0YpTsM3qTj4o1gJCoro2BtPCOkLA+rVbwYh99vCQqjfY7POJ/BH2qhe2Q7myh+X+GfT+/szZIgjSDTUR/iJ0Mg==
+
 reusify@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/reusify/-/reusify-1.0.4.tgz#90da382b1e126efc02146e90845a88db12925d76"
@@ -7084,6 +7101,11 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zod@^3.22.4:
+  version "3.22.4"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
+  integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
 
 zustand@^4.5.2:
   version "4.5.2"
