@@ -1,11 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
+
+import { useUserStore } from './store/useUserStore';
 
 export default function App() {
+  const isLoggedIn = useUserStore((s) => s.isLoggedIn);
+  const setIsLoggedIn = useUserStore((s) => s.setIsLoggedIn);
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+      {isLoggedIn == false ? (
+        <Text>Some not logged in text </Text>
+      ) : (
+        <Text>Some logged in text </Text>
+      )}
+      <Button
+        title="Change mde"
+        onPress={() => {
+          setIsLoggedIn(!isLoggedIn);
+        }}
+      />
     </View>
   );
 }

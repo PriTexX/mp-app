@@ -24,7 +24,7 @@
         "checksVoidReturn": false
       }
     ],
-    "prettier/prettier": "warn",
+    "prettier/prettier": ["warn", { "endOfLine": "auto" }],
     "no-console": "error",
     "no-constant-condition": ["error", { "checkLoops": false }],
     "security/detect-object-injection": "off",
