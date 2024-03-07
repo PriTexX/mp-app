@@ -9,7 +9,6 @@ import type { z } from 'zod';
 type HTTPConfig = {
   url: string;
   timeout: number;
-  debug: boolean;
 };
 
 type KyInstance = typeof ky;

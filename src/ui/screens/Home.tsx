@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Button, Text } from 'react-native';
+import { Button, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUserStore } from 'src/store/useUserStore';
 
@@ -23,19 +23,13 @@ export function HomeScreen() {
     <SafeAreaView style={styles.container}>
       <Text>Hello home</Text>
       <Button
-        title="Logout"
+        mode="elevated"
         onPress={() => {
           setIsLoggedIn(false);
         }}
-      />
-    </SafeAreaView>
-  );
-}
-
-export function Test() {
-  return (
-    <SafeAreaView>
-      <Text>Test screen</Text>
+      >
+        Tap me
+      </Button>
     </SafeAreaView>
   );
 }

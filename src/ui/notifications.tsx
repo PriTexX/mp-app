@@ -61,9 +61,11 @@ export function NotificationsContextProvider({
 
   TaskManager.defineTask(
     BACKGROUND_NOTIFICATION_TASK,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ({ data }: { data: any }) =>
-      handleNotificationResponse(data.notification, navigate),
+    ({
+      data: { notification },
+    }: {
+      data: { notification: Notifications.NotificationResponse };
+    }) => handleNotificationResponse(notification, navigate),
   );
 
   useEffect(() => {
