@@ -1,5 +1,7 @@
+import { useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
-import { Button, Text } from 'react-native-paper';
+import { View } from 'react-native';
+import { Appbar, Button, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUserStore } from 'src/store/useUserStore';
 
@@ -9,14 +11,10 @@ import { styles } from '../styles';
 export function HomeScreen() {
   const setIsLoggedIn = useUserStore((s) => s.setIsLoggedIn);
 
-  const { requestNotifyPermissions, scheduleNotification } = useNotifications();
+  const { requestNotifyPermissions } = useNotifications();
 
   useEffect(() => {
     void requestNotifyPermissions();
-    void scheduleNotification({
-      content: { title: 'Test', body: 'Some body msg', data: { test: true } },
-      trigger: { seconds: 5 },
-    });
   });
 
   return (
@@ -31,5 +29,13 @@ export function HomeScreen() {
         Tap me
       </Button>
     </SafeAreaView>
+  );
+}
+
+export function TestScreen() {
+  return (
+    <View>
+      <Text>Hello test</Text>
+    </View>
   );
 }

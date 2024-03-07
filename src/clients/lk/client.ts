@@ -7,7 +7,7 @@ export class LkClient {
 
   constructor() {
     this.client = new HTTPClient({
-      timeout: 60000,
+      timeout: 20_000,
       url: 'https://e.mospolytech.ru',
     });
   }

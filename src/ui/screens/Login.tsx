@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { View } from 'react-native';
+import { showMessage } from 'react-native-flash-message';
 import { Button, Text, TextInput, useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LkClient } from 'src/clients/lk';
@@ -8,7 +9,7 @@ import { useUserStore } from 'src/store/useUserStore';
 
 import { styles } from '../styles';
 
-import type { LoginStackScreenProps } from '../navigation/login';
+import type { LoginStackScreenProps } from '../navigation/login-nav';
 
 const lkClient = new LkClient();
 
@@ -25,7 +26,7 @@ export function LoginScreen() {
     const resp = await lkClient.login(login, password);
 
     if (resp.isErr()) {
-      console.log('wrong password');
+      showMessage({ message: 'Error call', type: 'danger' });
       return;
     }
 
@@ -87,9 +88,18 @@ export function LoginScreen() {
 }
 
 export function NewLoginScreen() {
+  const setIsLoggedIn = useUserStore((s) => s.setIsLoggedIn);
+
   return (
     <SafeAreaView style={styles.container}>
       <Text>Hello new login</Text>
+      <Button
+        onPress={() => {
+          setIsLoggedIn(true);
+        }}
+      >
+        Login
+      </Button>
     </SafeAreaView>
   );
 }
