@@ -2,6 +2,8 @@ import { HTTPClient } from 'src/pkg/http';
 import { formUrlEncoded } from 'src/utils';
 import { z } from 'zod';
 
+import { userAvatarSchema, userDataSchema } from './schemas';
+
 export class LkClient {
   private client: HTTPClient;
 
@@ -29,5 +31,27 @@ export class LkClient {
         },
       },
     );
+  }
+
+  getUserData(phpToken: string) {
+    return this.client.fetch(userDataSchema, {
+      url: 'old/lk_api.php',
+      method: 'get',
+      searchParams: {
+        getAppData: true,
+        token: phpToken,
+      },
+    });
+  }
+
+  getUserAvatar(phpToken: string) {
+    return this.client.fetch(userAvatarSchema, {
+      url: 'old/lk_api.php',
+      method: 'get',
+      searchParams: {
+        getUser: true,
+        token: phpToken,
+      },
+    });
   }
 }

@@ -1,10 +1,12 @@
 import { TouchableOpacity } from 'react-native';
 import { Appbar, Avatar } from 'react-native-paper';
+import { useUserStore } from 'src/store/useUserStore';
 
 import type { DrawerHeaderProps } from '@react-navigation/drawer';
 
 export function MyAppbar({ options, navigation }: DrawerHeaderProps) {
   const title = options.title ?? '???';
+  const { avatar } = useUserStore((s) => s.user);
 
   return (
     <Appbar.Header>
@@ -12,7 +14,7 @@ export function MyAppbar({ options, navigation }: DrawerHeaderProps) {
         <Avatar.Image
           size={40}
           source={{
-            uri: 'https://e.mospolytech.ru/old/img/photos/upc_a189d9828785bccde0e80723fcdd0b1e_1631046567.jpg',
+            uri: avatar,
           }}
         />
       </TouchableOpacity>

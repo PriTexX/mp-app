@@ -4,7 +4,13 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 export type User = {
   fullName: string;
-  token: string;
+  guid: string;
+  group: string;
+  avatar: string;
+  course: string;
+  specialty: string;
+  specialtyCode: string;
+  specialization: string;
 };
 
 export type UserStore = {
@@ -19,7 +25,13 @@ export const useUserStore = create(
     (set) => ({
       user: {
         fullName: '',
-        token: '',
+        guid: '',
+        group: '',
+        avatar: '',
+        course: '',
+        specialty: '',
+        specialtyCode: '',
+        specialization: '',
       },
       isLoggedIn: false,
       setUser: (user) => set(() => ({ user })),
