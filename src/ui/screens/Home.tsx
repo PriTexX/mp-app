@@ -1,7 +1,6 @@
-import { useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
 import { View } from 'react-native';
-import { Appbar, Button, Text } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUserStore } from 'src/store/useUserStore';
 
@@ -19,7 +18,7 @@ export function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Hello home</Text>
+      <Text>Hello world</Text>
       <Button
         mode="elevated"
         onPress={() => {
