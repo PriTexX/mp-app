@@ -1,6 +1,6 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { Drawer as PaperDrawer, useTheme } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import { Drawer as PaperDrawer } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUserStore } from 'src/store/useUserStore';
 
@@ -41,33 +41,30 @@ function DrawerContent() {
 }
 
 export function HomeNav() {
-  const theme = useTheme();
   const user = useUserStore((s) => s.user);
 
   return (
-    <NavigationContainer theme={theme as never}>
-      <NotificationsContextProvider>
-        <Drawer.Navigator
-          initialRouteName="home"
-          screenOptions={{
-            header: (props) => (
-              <MyAppbar {...props} avatar={user?.avatar ?? ''} />
-            ),
-          }}
-          drawerContent={DrawerContent}
-        >
-          <Drawer.Screen
-            name="home"
-            options={{ title: 'Домашняя страница' }}
-            component={HomeScreen}
-          ></Drawer.Screen>
-          <Drawer.Screen
-            name="test"
-            options={{ title: 'Тестовая страница' }}
-            component={TestScreen}
-          ></Drawer.Screen>
-        </Drawer.Navigator>
-      </NotificationsContextProvider>
-    </NavigationContainer>
+    <NotificationsContextProvider>
+      <Drawer.Navigator
+        initialRouteName="home"
+        screenOptions={{
+          header: (props) => (
+            <MyAppbar {...props} avatar={user?.avatar ?? ''} />
+          ),
+        }}
+        drawerContent={DrawerContent}
+      >
+        <Drawer.Screen
+          name="home"
+          options={{ title: 'Домашняя страница' }}
+          component={HomeScreen}
+        ></Drawer.Screen>
+        <Drawer.Screen
+          name="test"
+          options={{ title: 'Тестовая страница' }}
+          component={TestScreen}
+        ></Drawer.Screen>
+      </Drawer.Navigator>
+    </NotificationsContextProvider>
   );
 }

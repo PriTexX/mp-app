@@ -1,11 +1,18 @@
 import { useNavigation } from '@react-navigation/native';
-import { hideAsync, preventAutoHideAsync } from 'expo-splash-screen';
+import { hideAsync } from 'expo-splash-screen';
 import { useRef, useState } from 'react';
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { Button, Surface, Text, TextInput, useTheme } from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Button,
+  Surface,
+  Text,
+  TextInput,
+  useTheme,
+} from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { LkClient } from 'src/clients/lk';
+import { lkClient } from 'src/clients/lk';
 import { useSecureStore } from 'src/store/useSecureStore';
 import { useUserStore } from 'src/store/useUserStore';
 
@@ -13,8 +20,6 @@ import { styles } from '../styles';
 
 import type { LoginStackScreenProps } from '../navigation/login-nav';
 import type { RNTextInput } from '../types';
-
-const lkClient = new LkClient();
 
 export function LoginScreen() {
   const { navigate } = useNavigation<LoginStackScreenProps['navigation']>();
@@ -28,65 +33,37 @@ export function LoginScreen() {
   const passwordInputRef = useRef<RNTextInput>(null);
 
   const setIsLoggedIn = useUserStore((s) => s.setIsLoggedIn);
-  const setUser = useUserStore((s) => s.setUser);
   const setSecureTokens = useSecureStore((s) => s.setTokens);
+
+  const [activityAnimating, setActivityAnimating] = useState(false);
 
   const [isPasswordSecured, setIsPasswordSecured] = useState(true);
 
   const lkLogin = async () => {
+    setActivityAnimating(true);
     const resp = await lkClient.login(login, password);
 
     if (resp.isErr()) {
+      setActivityAnimating(false);
       setIsError(true);
       showMessage({ message: 'Неверный логин или пароль', type: 'danger' });
       return;
     }
 
-    await preventAutoHideAsync();
     setIsLoggedIn(true);
 
     const { token, jwt, jwt_refresh: jwtRefresh } = resp.value;
     setSecureTokens({ token, jwt, jwtRefresh });
-
-    const [userData, userAvatar] = await Promise.all([
-      lkClient.getUserData(token),
-      lkClient.getUserAvatar(token),
-    ]);
-
-    if (userData.isErr() || userAvatar.isErr()) {
-      showMessage({ message: 'Ошибка при загрузке данных', type: 'warning' });
-      return;
-    }
-
-    const {
-      name,
-      surname,
-      patronymic,
-      guid_person: guid,
-      group,
-      course,
-      specialization,
-      specialty,
-      specialty_code: specialtyCode,
-    } = userData.value;
-
-    setUser({
-      fullName: `${surname} ${name} ${patronymic}`.trim(),
-      guid,
-      group,
-      avatar: userAvatar.value.user.avatar,
-      course,
-      specialty,
-      specialtyCode,
-      specialization,
-    });
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView
         style={{
-          ...styles.container,
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 10,
           backgroundColor: colors.background,
         }}
         onLayout={hideAsync}
@@ -109,7 +86,12 @@ export function LoginScreen() {
             placeholder="i.i.ivanov"
             value={login}
             onChangeText={(t) => setLogin(t)}
-            right={<TextInput.Icon icon="login" />}
+            right={
+              <TextInput.Icon
+                icon="login"
+                onPress={() => setActivityAnimating(!activityAnimating)}
+              />
+            }
           />
           <TextInput
             style={{ width: 250 }}
@@ -132,12 +114,15 @@ export function LoginScreen() {
             }
             onChangeText={(p) => setPassword(p)}
           />
+          <ActivityIndicator
+            animating={activityAnimating}
+            style={{ display: activityAnimating ? 'flex' : 'none' }}
+          />
         </Surface>
 
         <View
           style={{
             width: 260,
-            marginTop: 10,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',

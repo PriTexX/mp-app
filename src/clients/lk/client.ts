@@ -55,3 +55,5 @@ export class LkClient {
     });
   }
 }
+
+export const lkClient = new LkClient();

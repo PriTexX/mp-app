@@ -1,33 +1,66 @@
 import { hideAsync } from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { showMessage } from 'react-native-flash-message';
+import { Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { lkClient } from 'src/clients/lk';
+import { useSecureStore } from 'src/store/useSecureStore';
 import { useUserStore } from 'src/store/useUserStore';
 
-import { useNotifications } from '../notifications';
 import { styles } from '../styles';
 
 export function HomeScreen() {
-  const setIsLoggedIn = useUserStore((s) => s.setIsLoggedIn);
+  const setUser = useUserStore((s) => s.setUser);
 
-  const { requestNotifyPermissions } = useNotifications();
+  const tokens = useSecureStore((s) => s.tokens);
 
   useEffect(() => {
-    void requestNotifyPermissions();
-  });
+    const getUserInfo = async () => {
+      if (!tokens) {
+        return;
+      }
+
+      const [userData, userAvatar] = await Promise.all([
+        lkClient.getUserData(tokens?.token),
+        lkClient.getUserAvatar(tokens.token),
+      ]);
+
+      if (userData.isErr() || userAvatar.isErr()) {
+        showMessage({ message: 'Ошибка при загрузке данных', type: 'warning' });
+        return;
+      }
+
+      const {
+        name,
+        surname,
+        patronymic,
+        guid_person: guid,
+        group,
+        course,
+        specialization,
+        specialty,
+        specialty_code: specialtyCode,
+      } = userData.value;
+
+      setUser({
+        fullName: `${surname} ${name} ${patronymic}`.trim(),
+        guid,
+        group,
+        avatar: userAvatar.value.user.avatar,
+        course,
+        specialty,
+        specialtyCode,
+        specialization,
+      });
+    };
+
+    void getUserInfo();
+  }, [tokens]);
 
   return (
     <SafeAreaView style={styles.container} onLayout={hideAsync}>
       <Text>Hello world</Text>
-      <Button
-        mode="elevated"
-        onPress={() => {
-          setIsLoggedIn(false);
-        }}
-      >
-        Tap me
-      </Button>
     </SafeAreaView>
   );
 }

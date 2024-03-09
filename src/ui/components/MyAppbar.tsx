@@ -123,7 +123,7 @@ export function MyAppbar({
   options,
   navigation,
   avatar,
-}: DrawerHeaderProps & { avatar: string }) {
+}: DrawerHeaderProps & { avatar: string | null }) {
   const title = options.title ?? '???';
 
   return (
@@ -131,9 +131,7 @@ export function MyAppbar({
       <TouchableOpacity onPress={() => navigation.openDrawer()}>
         <Avatar.Image
           size={40}
-          source={{
-            uri: avatar,
-          }}
+          source={avatar ? { uri: avatar } : require('assets/user.png')}
         />
       </TouchableOpacity>
       <Appbar.Content

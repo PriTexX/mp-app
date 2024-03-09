@@ -1,3 +1,4 @@
+import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import FlashMessage from 'react-native-flash-message';
 import { PaperProvider } from 'react-native-paper';
@@ -16,7 +17,9 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <PaperProvider theme={darkTheme}>
-        {isLoggedIn ? <HomeNav /> : <LoginNav />}
+        <NavigationContainer theme={darkTheme}>
+          {isLoggedIn ? <HomeNav /> : <LoginNav />}
+        </NavigationContainer>
       </PaperProvider>
       <FlashMessage
         position="bottom"
