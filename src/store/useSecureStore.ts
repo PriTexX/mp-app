@@ -9,18 +9,14 @@ export type UserTokens = {
 };
 
 export type UserStore = {
-  tokens: UserTokens;
-  setTokens: (user: UserTokens) => void;
+  tokens: UserTokens | null;
+  setTokens: (user: UserTokens | null) => void;
 };
 
 export const useSecureStore = create(
   persist<UserStore>(
     (set) => ({
-      tokens: {
-        token: '',
-        jwt: '',
-        jwtRefresh: '',
-      },
+      tokens: null,
       setTokens: (tokens) => set(() => ({ tokens })),
     }),
     {

@@ -1,15 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
+import { hideAsync, preventAutoHideAsync } from 'expo-splash-screen';
 import { useRef, useState } from 'react';
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import {
-  Button,
-  IconButton,
-  Surface,
-  Text,
-  TextInput,
-  useTheme,
-} from 'react-native-paper';
+import { Button, Surface, Text, TextInput, useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LkClient } from 'src/clients/lk';
 import { useSecureStore } from 'src/store/useSecureStore';
@@ -48,6 +42,7 @@ export function LoginScreen() {
       return;
     }
 
+    await preventAutoHideAsync();
     setIsLoggedIn(true);
 
     const { token, jwt, jwt_refresh: jwtRefresh } = resp.value;
@@ -94,6 +89,7 @@ export function LoginScreen() {
           ...styles.container,
           backgroundColor: colors.background,
         }}
+        onLayout={hideAsync}
       >
         <Surface
           style={{
@@ -120,9 +116,13 @@ export function LoginScreen() {
             error={isError}
             ref={passwordInputRef}
             secureTextEntry={isPasswordSecured}
-            onSubmitEditing={Keyboard.dismiss}
+            onSubmitEditing={async () => {
+              Keyboard.dismiss;
+              await lkLogin();
+            }}
             returnKeyType="done"
             label="Пароль"
+            placeholder="Stud123456!"
             value={password}
             right={
               <TextInput.Icon

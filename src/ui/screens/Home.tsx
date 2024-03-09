@@ -1,3 +1,4 @@
+import { hideAsync } from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
@@ -17,7 +18,7 @@ export function HomeScreen() {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} onLayout={hideAsync}>
       <Text>Hello world</Text>
       <Button
         mode="elevated"

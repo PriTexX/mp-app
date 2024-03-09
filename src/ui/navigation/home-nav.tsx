@@ -2,6 +2,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { Drawer as PaperDrawer, useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useUserStore } from 'src/store/useUserStore';
 
 import { MyAppbar } from '../components/MyAppbar';
 import { NotificationsContextProvider } from '../notifications';
@@ -41,6 +42,7 @@ function DrawerContent() {
 
 export function HomeNav() {
   const theme = useTheme();
+  const user = useUserStore((s) => s.user);
 
   return (
     <NavigationContainer theme={theme as never}>
@@ -48,7 +50,9 @@ export function HomeNav() {
         <Drawer.Navigator
           initialRouteName="home"
           screenOptions={{
-            header: MyAppbar,
+            header: (props) => (
+              <MyAppbar {...props} avatar={user?.avatar ?? ''} />
+            ),
           }}
           drawerContent={DrawerContent}
         >

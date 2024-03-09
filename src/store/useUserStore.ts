@@ -14,8 +14,8 @@ export type User = {
 };
 
 export type UserStore = {
-  user: User;
-  setUser: (user: User) => void;
+  user: User | null;
+  setUser: (user: User | null) => void;
   isLoggedIn: boolean;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
 };
@@ -23,16 +23,7 @@ export type UserStore = {
 export const useUserStore = create(
   persist<UserStore>(
     (set) => ({
-      user: {
-        fullName: '',
-        guid: '',
-        group: '',
-        avatar: '',
-        course: '',
-        specialty: '',
-        specialtyCode: '',
-        specialization: '',
-      },
+      user: null,
       isLoggedIn: false,
       setUser: (user) => set(() => ({ user })),
       setIsLoggedIn: (isLoggedIn: boolean) => set(() => ({ isLoggedIn })),

@@ -1,3 +1,4 @@
+import * as SplashScreen from 'expo-splash-screen';
 import FlashMessage from 'react-native-flash-message';
 import { PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -5,6 +6,8 @@ import { useUserStore } from 'src/store/useUserStore';
 import { HomeNav } from 'src/ui/navigation/home-nav';
 import { LoginNav } from 'src/ui/navigation/login-nav';
 import { getTheme } from 'src/ui/theme';
+
+void SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const isLoggedIn = useUserStore((s) => s.isLoggedIn);
