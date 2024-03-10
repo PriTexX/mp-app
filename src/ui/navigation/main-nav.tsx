@@ -6,12 +6,13 @@ import { useUserStore } from 'src/store/useUserStore';
 
 import { MyAppbar } from '../components/MyAppbar';
 import { NotificationsContextProvider } from '../notifications';
-import { HomeScreen, TestScreen } from '../screens';
+import { HomeScreen, ScheduleScreen, TestScreen } from '../screens';
 
 import type { DrawerScreenProps } from '@react-navigation/drawer';
 
 export type HomeDrawerParamList = {
-  home: undefined;
+  main: undefined;
+  schedule: undefined;
   test: undefined;
 };
 
@@ -28,11 +29,16 @@ function DrawerContent() {
         <PaperDrawer.Item
           label="Home"
           icon="home"
-          onPress={() => navigate('home')}
+          onPress={() => navigate('main')}
+        />
+        <PaperDrawer.Item
+          label="Schedule"
+          icon="calendar"
+          onPress={() => navigate('schedule')}
         />
         <PaperDrawer.Item
           label="Settings"
-          icon="broadcast"
+          icon="cog"
           onPress={() => navigate('test')}
         />
       </PaperDrawer.Section>
@@ -46,7 +52,7 @@ export function HomeNav() {
   return (
     <NotificationsContextProvider>
       <Drawer.Navigator
-        initialRouteName="home"
+        initialRouteName="main"
         screenOptions={{
           header: (props) => (
             <MyAppbar {...props} avatar={user?.avatar ?? ''} />
@@ -55,9 +61,14 @@ export function HomeNav() {
         drawerContent={DrawerContent}
       >
         <Drawer.Screen
-          name="home"
+          name="main"
           options={{ title: 'Домашняя страница' }}
           component={HomeScreen}
+        ></Drawer.Screen>
+        <Drawer.Screen
+          name="schedule"
+          options={{ title: 'Расписание' }}
+          component={ScheduleScreen}
         ></Drawer.Screen>
         <Drawer.Screen
           name="test"

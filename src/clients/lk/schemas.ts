@@ -18,3 +18,22 @@ export const userAvatarSchema = z.object({
     avatar: z.string(),
   }),
 });
+
+export const lessonSchema = z.object({
+  name: z.string(),
+  dateInterval: z.string(),
+  link: z.string().nullable(),
+  place: z.string(),
+  timeInterval: z.string(),
+  teachers: z.array(z.string()),
+  rooms: z.array(z.string()),
+});
+
+export const studentScheduleSchema = z.object({
+  Monday: z.object({ lessons: z.array(lessonSchema) }),
+  Tuesday: z.object({ lessons: z.array(lessonSchema) }),
+  Wednesday: z.object({ lessons: z.array(lessonSchema) }),
+  Thursday: z.object({ lessons: z.array(lessonSchema) }),
+  Friday: z.object({ lessons: z.array(lessonSchema) }),
+  Saturday: z.object({ lessons: z.array(lessonSchema) }),
+});

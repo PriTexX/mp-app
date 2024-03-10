@@ -2,7 +2,11 @@ import { HTTPClient } from 'src/pkg/http';
 import { formUrlEncoded } from 'src/utils';
 import { z } from 'zod';
 
-import { userAvatarSchema, userDataSchema } from './schemas';
+import {
+  studentScheduleSchema,
+  userAvatarSchema,
+  userDataSchema,
+} from './schemas';
 
 export class LkClient {
   private client: HTTPClient;
@@ -51,6 +55,18 @@ export class LkClient {
       searchParams: {
         getUser: true,
         token: phpToken,
+      },
+    });
+  }
+
+  getSchedule(phpToken: string, group: string, session?: boolean) {
+    return this.client.fetch(studentScheduleSchema, {
+      url: 'old/lk_api.php',
+      method: 'get',
+      searchParams: {
+        getSchedule: true,
+        token: phpToken,
+        ...(session ? { session: true } : { group }),
       },
     });
   }
