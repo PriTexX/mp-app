@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import {
   Appbar,
@@ -39,12 +39,7 @@ function ExitDialog({
           }}
         >
           <Dialog.Actions>
-            <Button
-              style={{ width: 90 }}
-              onPress={() => {
-                leaveFn();
-              }}
-            >
+            <Button style={{ width: 90 }} onPress={leaveFn}>
               <Text style={{ color: '#a31717' }}>Да</Text>
             </Button>
           </Dialog.Actions>
@@ -68,51 +63,48 @@ function AppMenu() {
   }));
   const setTokens = useSecureStore((s) => s.setTokens);
 
-  const leaveAccount = () => {
+  const leaveAccount = useCallback(() => {
     setIsLoggedIn(false);
     setUser(null);
     setTokens(null);
-  };
+  }, []);
+
+  const dismissMenu = useCallback(() => setMenuVisible(false), []);
+  const showMenu = useCallback(() => setMenuVisible(true), []);
 
   const [dialogVisible, setDialogVisible] = useState(false);
+
+  const showDialog = useCallback(() => setDialogVisible(true), []);
+
+  const hideExitDialog = useCallback(() => {
+    setDialogVisible(false);
+    setMenuVisible(false);
+  }, []);
+
+  const exitLeadingIcon = memo(() => (
+    <View style={{ marginTop: 2, transform: [{ rotate: '180deg' }] }}>
+      <Icon source="exit-to-app" size={22} color="#a31717" />
+    </View>
+  ));
 
   return (
     <Menu
       visible={menuVisible}
-      onDismiss={() => setMenuVisible(false)}
-      anchor={
-        <Appbar.Action
-          icon="dots-vertical"
-          onPress={() => {
-            setMenuVisible(true);
-          }}
-        />
-      }
+      onDismiss={dismissMenu}
+      anchor={<Appbar.Action icon="dots-vertical" onPress={showMenu} />}
     >
-      <Menu.Item
-        title="Test item"
-        onPress={() => {
-          setDialogVisible(true);
-        }}
-      />
+      <Menu.Item title="Test item" onPress={showDialog} />
       <Menu.Item title="Test item 2" onPress={() => {}} />
       <Divider />
       <Menu.Item
         title="Выйти из аккаунта"
-        leadingIcon={() => (
-          <View style={{ marginTop: 2, transform: [{ rotate: '180deg' }] }}>
-            <Icon source="exit-to-app" size={22} color="#a31717" />
-          </View>
-        )}
+        leadingIcon={exitLeadingIcon}
         titleStyle={{ color: '#a31717' }}
-        onPress={() => setDialogVisible(true)}
+        onPress={showDialog}
       />
       <ExitDialog
         visible={dialogVisible}
-        hideDialog={() => {
-          setDialogVisible(false);
-          setMenuVisible(false);
-        }}
+        hideDialog={hideExitDialog}
         leaveFn={leaveAccount}
       />
     </Menu>
@@ -126,13 +118,16 @@ export function MyAppbar({
 }: DrawerHeaderProps & { avatar: string | null }) {
   const title = options.title ?? '???';
 
+  const source = useMemo(() => {
+    return avatar ? { uri: avatar } : require('assets/user.png');
+  }, [avatar]);
+
+  const openDrawer = useCallback(() => navigation.openDrawer(), []);
+
   return (
     <Appbar.Header>
-      <TouchableOpacity onPress={() => navigation.openDrawer()}>
-        <Avatar.Image
-          size={40}
-          source={avatar ? { uri: avatar } : require('assets/user.png')}
-        />
+      <TouchableOpacity onPress={openDrawer}>
+        <Avatar.Image size={40} source={source} />
       </TouchableOpacity>
       <Appbar.Content
         title={title}

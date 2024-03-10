@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { hideAsync } from 'expo-splash-screen';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import {
@@ -39,7 +39,8 @@ export function LoginScreen() {
 
   const [isPasswordSecured, setIsPasswordSecured] = useState(true);
 
-  const lkLogin = async () => {
+  const lkLogin = useCallback(async () => {
+    Keyboard.dismiss();
     setActivityAnimating(true);
     const resp = await lkClient.login(login, password);
 
@@ -54,7 +55,7 @@ export function LoginScreen() {
 
     const { token, jwt, jwt_refresh: jwtRefresh } = resp.value;
     setSecureTokens({ token, jwt, jwtRefresh });
-  };
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -82,10 +83,10 @@ export function LoginScreen() {
             label="Логин"
             error={isError}
             returnKeyType="next"
-            onSubmitEditing={() => passwordInputRef.current?.focus()}
+            onSubmitEditing={passwordInputRef.current?.focus}
             placeholder="i.i.ivanov"
             value={login}
-            onChangeText={(t) => setLogin(t)}
+            onChangeText={setLogin}
             right={
               <TextInput.Icon
                 icon="login"
@@ -98,10 +99,7 @@ export function LoginScreen() {
             error={isError}
             ref={passwordInputRef}
             secureTextEntry={isPasswordSecured}
-            onSubmitEditing={async () => {
-              Keyboard.dismiss;
-              await lkLogin();
-            }}
+            onSubmitEditing={lkLogin}
             returnKeyType="done"
             label="Пароль"
             placeholder="Stud123456!"
@@ -112,7 +110,7 @@ export function LoginScreen() {
                 onPress={() => setIsPasswordSecured(!isPasswordSecured)}
               />
             }
-            onChangeText={(p) => setPassword(p)}
+            onChangeText={setPassword}
           />
           <ActivityIndicator
             animating={activityAnimating}
@@ -128,14 +126,7 @@ export function LoginScreen() {
             justifyContent: 'space-between',
           }}
         >
-          <Button
-            style={{ width: 100 }}
-            mode="elevated"
-            onPress={async () => {
-              Keyboard.dismiss();
-              await lkLogin();
-            }}
-          >
+          <Button style={{ width: 100 }} mode="elevated" onPress={lkLogin}>
             Login
           </Button>
           <Button style={{ width: 100 }} onPress={() => navigate('new-login')}>

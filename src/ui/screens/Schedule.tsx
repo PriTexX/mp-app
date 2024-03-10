@@ -107,24 +107,20 @@ export function ScheduleScreen() {
     }
 
     const applySchedule = async () => {
-      try {
-        const scheduleRes = await getAndProcessStudentSchedule(
-          tokens.token,
-          user.group,
-        );
+      const scheduleRes = await getAndProcessStudentSchedule(
+        tokens.token,
+        user.group,
+      );
 
-        if (scheduleRes.isErr()) {
-          showMessage({
-            message: 'Не удалось загрузить расписание',
-            type: 'danger',
-          });
-          return;
-        }
-
-        setSchedule(JSON.stringify(scheduleRes.value));
-      } catch (error) {
-        console.error(error);
+      if (scheduleRes.isErr()) {
+        showMessage({
+          message: 'Не удалось загрузить расписание',
+          type: 'danger',
+        });
+        return;
       }
+
+      setSchedule(JSON.stringify(scheduleRes.value));
     };
 
     void applySchedule();
