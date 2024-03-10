@@ -1,5 +1,6 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
+import { memo } from 'react';
 import { Drawer as PaperDrawer } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUserStore } from 'src/store/useUserStore';
@@ -20,7 +21,7 @@ export type HomeDrawerScreenProps = DrawerScreenProps<HomeDrawerParamList>;
 
 const Drawer = createDrawerNavigator<HomeDrawerParamList>();
 
-function DrawerContent() {
+const MemoizedDrawerContent = memo(() => {
   const { navigate } = useNavigation<HomeDrawerScreenProps['navigation']>();
 
   return (
@@ -44,6 +45,14 @@ function DrawerContent() {
       </PaperDrawer.Section>
     </SafeAreaView>
   );
+});
+
+// DrawerContent will re-render every time Drawer
+// is opened, closed or navigation happens
+// so we memo its content in another component
+// to prevent content re-rendering
+function DrawerContent() {
+  return <MemoizedDrawerContent />;
 }
 
 export function HomeNav() {

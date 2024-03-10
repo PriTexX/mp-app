@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import {
   Appbar,
@@ -54,51 +54,37 @@ function ExitDialog({
   );
 }
 
-function AppMenu() {
-  const [menuVisible, setMenuVisible] = useState(false);
-
+function ExitComponent({ closeMenu }: { closeMenu: () => void }) {
   const { setIsLoggedIn, setUser } = useUserStore((s) => ({
     setIsLoggedIn: s.setIsLoggedIn,
     setUser: s.setUser,
   }));
   const setTokens = useSecureStore((s) => s.setTokens);
 
-  const leaveAccount = useCallback(() => {
+  const leaveAccount = () => {
     setIsLoggedIn(false);
     setUser(null);
     setTokens(null);
-  }, []);
-
-  const dismissMenu = useCallback(() => setMenuVisible(false), []);
-  const showMenu = useCallback(() => setMenuVisible(true), []);
+  };
 
   const [dialogVisible, setDialogVisible] = useState(false);
 
-  const showDialog = useCallback(() => setDialogVisible(true), []);
+  const showDialog = () => setDialogVisible(true);
 
-  const hideExitDialog = useCallback(() => {
+  const hideExitDialog = () => {
     setDialogVisible(false);
-    setMenuVisible(false);
-  }, []);
-
-  const exitLeadingIcon = memo(() => (
-    <View style={{ marginTop: 2, transform: [{ rotate: '180deg' }] }}>
-      <Icon source="exit-to-app" size={22} color="#a31717" />
-    </View>
-  ));
+    closeMenu();
+  };
 
   return (
-    <Menu
-      visible={menuVisible}
-      onDismiss={dismissMenu}
-      anchor={<Appbar.Action icon="dots-vertical" onPress={showMenu} />}
-    >
-      <Menu.Item title="Test item" onPress={showDialog} />
-      <Menu.Item title="Test item 2" onPress={() => {}} />
-      <Divider />
+    <>
       <Menu.Item
         title="Выйти из аккаунта"
-        leadingIcon={exitLeadingIcon}
+        leadingIcon={() => (
+          <View style={{ marginTop: 2, transform: [{ rotate: '180deg' }] }}>
+            <Icon source="exit-to-app" size={22} color="#a31717" />
+          </View>
+        )}
         titleStyle={{ color: '#a31717' }}
         onPress={showDialog}
       />
@@ -107,9 +93,61 @@ function AppMenu() {
         hideDialog={hideExitDialog}
         leaveFn={leaveAccount}
       />
+    </>
+  );
+}
+
+function AppMenu() {
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const closeMenu = useCallback(() => setMenuVisible(false), []);
+
+  return (
+    <Menu
+      visible={menuVisible}
+      onDismiss={() => setMenuVisible(false)}
+      anchor={
+        <Appbar.Action
+          icon="dots-vertical"
+          onPress={() => setMenuVisible(true)}
+        />
+      }
+    >
+      <Menu.Item title="Test item" onPress={() => {}} />
+      <Menu.Item title="Test item 2" onPress={() => {}} />
+      <Divider />
+      <ExitComponent closeMenu={closeMenu} />
     </Menu>
   );
 }
+
+const MemoizedAppbar = memo(
+  ({
+    title,
+    avatar,
+    openDrawer,
+  }: {
+    title: string;
+    avatar: string | null;
+    openDrawer: () => void;
+  }) => {
+    return (
+      <Appbar.Header>
+        <TouchableOpacity onPress={openDrawer}>
+          <Avatar.Image
+            size={40}
+            source={avatar ? { uri: avatar } : require('assets/user.png')}
+          />
+        </TouchableOpacity>
+        <Appbar.Content
+          title={title}
+          titleStyle={{ fontSize: 16, fontWeight: 'bold' }}
+        />
+        <AppMenu />
+      </Appbar.Header>
+    );
+  },
+);
 
 export function MyAppbar({
   options,
@@ -118,22 +156,9 @@ export function MyAppbar({
 }: DrawerHeaderProps & { avatar: string | null }) {
   const title = options.title ?? '???';
 
-  const source = useMemo(() => {
-    return avatar ? { uri: avatar } : require('assets/user.png');
-  }, [avatar]);
-
   const openDrawer = useCallback(() => navigation.openDrawer(), []);
 
   return (
-    <Appbar.Header>
-      <TouchableOpacity onPress={openDrawer}>
-        <Avatar.Image size={40} source={source} />
-      </TouchableOpacity>
-      <Appbar.Content
-        title={title}
-        titleStyle={{ fontSize: 16, fontWeight: 'bold' }}
-      />
-      <AppMenu />
-    </Appbar.Header>
+    <MemoizedAppbar title={title} avatar={avatar} openDrawer={openDrawer} />
   );
 }
