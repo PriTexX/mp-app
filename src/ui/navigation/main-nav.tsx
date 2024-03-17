@@ -51,6 +51,8 @@ const MemoizedDrawerContent = memo(() => {
 // is opened, closed or navigation happens
 // so we memo its content in another component
 // to prevent content re-rendering
+//
+// https://github.com/react-navigation/react-navigation/issues/6718#issuecomment-531475410
 function DrawerContent() {
   return <MemoizedDrawerContent />;
 }

@@ -41,10 +41,10 @@ async function getAndProcessStudentSchedule(phpToken: string, group: string) {
           // one exam along with common schedule. Exams don't
           // have date intervals instead there is single date
           // like 27 Май. So for this i have this hack
-          // thats sets to* vars only if there is date
+          // thats sets to* vars equal to from* vars
           const [toDay, toMonth] = to
             ? to.split(' ')
-            : [Number(fromDay) + 1, fromMonth];
+            : [Number(fromDay), fromMonth];
 
           const toMonthNumber = abbrvToMonths[toMonth as AbbrvMonths];
 
@@ -82,11 +82,11 @@ async function getAndProcessStudentSchedule(phpToken: string, group: string) {
 
           const toDate = new Date(toYear, toMonthNumber, Number(toDay));
 
-          if (currentDate >= toDate || currentDate <= fromDate) {
-            return false;
+          if (currentDate >= fromDate && currentDate <= toDate) {
+            return true;
           }
 
-          return true;
+          return false;
         },
       );
     }
