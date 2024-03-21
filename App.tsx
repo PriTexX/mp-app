@@ -3,12 +3,15 @@ import * as SplashScreen from 'expo-splash-screen';
 import FlashMessage from 'react-native-flash-message';
 import { PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { useUserStore } from 'src/store/useUserStore';
 import { LoginNav } from 'src/ui/navigation/login-nav';
 import { HomeNav } from 'src/ui/navigation/main-nav';
 import { getTheme } from 'src/ui/theme';
 
 void SplashScreen.preventAutoHideAsync();
+
+const queryClient = new QueryClient();
 
 export default function App() {
   const isLoggedIn = useUserStore((s) => s.isLoggedIn);
@@ -18,7 +21,9 @@ export default function App() {
     <SafeAreaProvider>
       <PaperProvider theme={darkTheme}>
         <NavigationContainer theme={darkTheme}>
-          {isLoggedIn ? <HomeNav /> : <LoginNav />}
+          <QueryClientProvider client={queryClient}>
+            {isLoggedIn ? <HomeNav /> : <LoginNav />}
+          </QueryClientProvider>
         </NavigationContainer>
       </PaperProvider>
       <FlashMessage

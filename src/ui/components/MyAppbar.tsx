@@ -39,13 +39,13 @@ function ExitDialog({
           }}
         >
           <Dialog.Actions>
-            <Button style={{ width: 90 }} onPress={leaveFn}>
-              <Text style={{ color: '#a31717' }}>Да</Text>
+            <Button style={{ marginRight: 10, width: 90 }} onPress={hideDialog}>
+              Отмена
             </Button>
           </Dialog.Actions>
           <Dialog.Actions>
-            <Button style={{ marginRight: 10, width: 90 }} onPress={hideDialog}>
-              Отмена
+            <Button style={{ width: 90 }} onPress={leaveFn}>
+              <Text style={{ color: '#a31717' }}>Да</Text>
             </Button>
           </Dialog.Actions>
         </View>

@@ -42,6 +42,7 @@ export function LoginScreen() {
   const lkLogin = useCallback(async () => {
     Keyboard.dismiss();
     setActivityAnimating(true);
+
     const resp = await lkClient.login(login, password);
 
     if (resp.isErr()) {
