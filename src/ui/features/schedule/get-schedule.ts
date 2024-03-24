@@ -1,3 +1,11 @@
+import dayjs from 'dayjs';
+import { useCallback, useState } from 'react';
+import { lkClient } from 'src/clients/lk';
+import { useQuery } from 'src/pkg/query';
+import { useSecureStore } from 'src/store/useSecureStore';
+import { useUserStore } from 'src/store/useUserStore';
+
+import type { LearningDay } from './types';
 import type { Dayjs } from 'dayjs';
 import type { Lesson, StudentSchedule } from 'src/clients/lk';
 
@@ -96,14 +104,63 @@ function getDaySchedule(schedule: StudentSchedule, date: Date) {
 }
 
 export function getWeekSchedule(schedule: StudentSchedule, date: Dayjs) {
-  let day = date.subtract(date.day() - 1, 'days');
+  let day = date.subtract(date.day() == 0 ? 6 : date.day(), 'days');
 
-  const week: Lesson[][] = [];
+  const week: LearningDay[] = [];
 
   for (let _ = 0; _ < 7; _++) {
-    week.push(getDaySchedule(schedule, day.toDate()));
+    week.push({
+      date: day.clone(),
+      lessons: getDaySchedule(schedule, day.toDate()),
+    });
     day = day.add(1, 'day');
   }
 
   return week;
+}
+
+export type UseScheduleHook = {
+  schedule: LearningDay[];
+  getNextWeek: () => void;
+} & (
+  | {
+      status: 'loading';
+    }
+  | { status: 'success' }
+  | { status: 'error' }
+);
+
+export function useSchedule(): UseScheduleHook {
+  const token = useSecureStore((s) => s.tokens.token);
+  const group = useUserStore((s) => s.user.group);
+
+  const [schedule, setSchedule] = useState<LearningDay[]>([]);
+  const [endOffset, setEndOffset] = useState(2);
+
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+  const today = dayjs(new Date());
+
+  const { data, status } = useQuery('schedule', () =>
+    lkClient.getSchedule(token, group),
+  );
+
+  if (status == 'success' && isFirstRender) {
+    setSchedule([
+      ...getWeekSchedule(data, today),
+      ...getWeekSchedule(data, today.add(1, 'week')),
+    ]);
+    setIsFirstRender(false);
+  }
+
+  const getNextWeek = useCallback(() => {
+    if (status == 'success') {
+      const weekSchedule = getWeekSchedule(data, today.add(endOffset, 'week'));
+
+      setSchedule((prev) => [...prev, ...weekSchedule]);
+      setEndOffset((prev) => prev + 1);
+    }
+  }, [status, endOffset]);
+
+  return { status, schedule, getNextWeek };
 }
