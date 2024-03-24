@@ -47,16 +47,24 @@ export function StudyingDay({
 }: StudyingDayProps) {
   return (
     <SafeAreaView style={{ width: Dimensions.get('screen').width }}>
-      <View
+      <Surface
         style={{
-          alignItems: 'center',
+          padding: 12,
+          borderRadius: 6,
+          alignSelf: 'center',
+          marginBottom: 20,
         }}
+        mode="flat"
+        elevation={3}
       >
-        <Text>
+        <Text style={{ textAlign: 'center', marginBottom: 8 }}>
           {date.date()} {daysToAbrrv[date.day()]}
         </Text>
-        <Text>{monthsToAbbrv[date.month()]}</Text>
-      </View>
+        <Text style={{ textAlign: 'center' }}>
+          {monthsToAbbrv[date.month()]}
+        </Text>
+      </Surface>
+
       {lessons.length > 0 ? (
         <FlatList
           data={lessons}

@@ -57,7 +57,7 @@ function getDaySchedule(schedule: StudentSchedule, date: Date) {
     // have date intervals instead there is single date
     // like 27 Май. So for this i have this hack
     // thats sets to* vars equal to from* vars
-    const [toDay, toMonth] = to ? to.split(' ') : [Number(fromDay), fromMonth];
+    const [toDay, toMonth] = to ? to.split(' ') : [fromDay, fromMonth];
 
     const toMonthNumber = abbrvToMonths[toMonth as AbbrvMonths];
 
@@ -86,6 +86,7 @@ function getDaySchedule(schedule: StudentSchedule, date: Date) {
       toMonthNumber < fromMonthNumber && date.getMonth() == 0
         ? date.getFullYear() - 1
         : date.getFullYear();
+
     const toYear =
       toMonthNumber < fromMonthNumber && date.getMonth() == 0
         ? date.getFullYear() + 1
@@ -104,7 +105,9 @@ function getDaySchedule(schedule: StudentSchedule, date: Date) {
 }
 
 export function getWeekSchedule(schedule: StudentSchedule, date: Dayjs) {
-  let day = date.subtract(date.day() == 0 ? 6 : date.day(), 'days');
+  let day = date.subtract(date.day() == 0 ? 6 : date.day() - 1, 'days');
+
+  console.log(`Getting schedule for week ${day.toISOString()}`);
 
   const week: LearningDay[] = [];
 
@@ -113,6 +116,7 @@ export function getWeekSchedule(schedule: StudentSchedule, date: Dayjs) {
       date: day.clone(),
       lessons: getDaySchedule(schedule, day.toDate()),
     });
+    console.log(day.toISOString());
     day = day.add(1, 'day');
   }
 
@@ -139,18 +143,19 @@ export function useSchedule(): UseScheduleHook {
 
   const [isFirstRender, setIsFirstRender] = useState(true);
 
-  const today = dayjs(new Date());
+  const today = dayjs();
 
   const { data, status } = useQuery('schedule', () =>
     lkClient.getSchedule(token, group),
   );
 
   if (status == 'success' && isFirstRender) {
+    setIsFirstRender(false);
     setSchedule([
+      ...getWeekSchedule(data, today.subtract(1, 'week')),
       ...getWeekSchedule(data, today),
       ...getWeekSchedule(data, today.add(1, 'week')),
     ]);
-    setIsFirstRender(false);
   }
 
   const getNextWeek = useCallback(() => {
