@@ -107,8 +107,6 @@ function getDaySchedule(schedule: StudentSchedule, date: Date) {
 export function getWeekSchedule(schedule: StudentSchedule, date: Dayjs) {
   let day = date.subtract(date.day() == 0 ? 6 : date.day() - 1, 'days');
 
-  console.log(`Getting schedule for week ${day.toISOString()}`);
-
   const week: LearningDay[] = [];
 
   for (let _ = 0; _ < 7; _++) {
@@ -116,7 +114,7 @@ export function getWeekSchedule(schedule: StudentSchedule, date: Dayjs) {
       date: day.clone(),
       lessons: getDaySchedule(schedule, day.toDate()),
     });
-    console.log(day.toISOString());
+
     day = day.add(1, 'day');
   }
 
