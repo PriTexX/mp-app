@@ -8,12 +8,14 @@ import { useUserStore } from 'src/store/useUserStore';
 import { MyAppbar } from '../components/MyAppbar';
 import { NotificationsContextProvider } from '../notifications';
 import { HomeScreen, ScheduleScreen, TestScreen } from '../screens';
+import { ServicesScreen } from '../screens/Services';
 
 import type { DrawerScreenProps } from '@react-navigation/drawer';
 
 export type HomeDrawerParamList = {
   main: undefined;
   schedule: undefined;
+  services: undefined;
   test: undefined;
 };
 
@@ -33,12 +35,17 @@ const MemoizedDrawerContent = memo(() => {
           onPress={() => navigate('main')}
         />
         <PaperDrawer.Item
-          label="Schedule"
+          label="Расписание"
           icon="calendar"
           onPress={() => navigate('schedule')}
         />
         <PaperDrawer.Item
-          label="Settings"
+          label="Сервисы"
+          icon="apps"
+          onPress={() => navigate('services')}
+        />
+        <PaperDrawer.Item
+          label="Настройки"
           icon="cog"
           onPress={() => navigate('test')}
         />
@@ -80,6 +87,11 @@ export function HomeNav() {
           name="schedule"
           options={{ title: 'Расписание' }}
           component={ScheduleScreen}
+        ></Drawer.Screen>
+        <Drawer.Screen
+          name="services"
+          options={{ title: 'Сервисы' }}
+          component={ServicesScreen}
         ></Drawer.Screen>
         <Drawer.Screen
           name="test"

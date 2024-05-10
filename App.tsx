@@ -5,8 +5,8 @@ import { PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { useUserStore } from 'src/store/useUserStore';
+import { HomeNav } from 'src/ui/navigation/home-nav';
 import { LoginNav } from 'src/ui/navigation/login-nav';
-import { HomeNav } from 'src/ui/navigation/main-nav';
 import { getTheme } from 'src/ui/theme';
 
 void SplashScreen.preventAutoHideAsync();

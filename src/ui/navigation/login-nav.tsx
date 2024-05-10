@@ -16,8 +16,8 @@ const Stack = createStackNavigator<LoginStackParamList>();
 export function LoginNav() {
   return (
     <Stack.Navigator initialRouteName="login">
-      <Stack.Screen name="login" component={LoginScreen}></Stack.Screen>
-      <Stack.Screen name="new-login" component={NewLoginScreen}></Stack.Screen>
+      <Stack.Screen name="login" component={LoginScreen} />
+      <Stack.Screen name="new-login" component={NewLoginScreen} />
     </Stack.Navigator>
   );
 }

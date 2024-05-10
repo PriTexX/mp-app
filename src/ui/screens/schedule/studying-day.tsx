@@ -71,7 +71,7 @@ export function StudyingDay({
           padding: 12,
           borderRadius: 6,
           alignSelf: 'center',
-          marginBottom: 20,
+          marginBottom: 10,
         }}
         mode="flat"
         elevation={3}
