@@ -105,7 +105,7 @@ function getDaySchedule(schedule: StudentSchedule, date: Date) {
 }
 
 export function getWeekSchedule(schedule: StudentSchedule, date: Dayjs) {
-  let day = date.subtract(date.day() == 0 ? 6 : date.day() - 1, 'days');
+  let day = date.isoWeekday(1);
 
   const week: LearningDay[] = [];
 
@@ -150,7 +150,6 @@ export function useSchedule(): UseScheduleHook {
   if (status == 'success' && isFirstRender) {
     setIsFirstRender(false);
     setSchedule([
-      ...getWeekSchedule(data, today.subtract(1, 'week')),
       ...getWeekSchedule(data, today),
       ...getWeekSchedule(data, today.add(1, 'week')),
     ]);

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import isoWeek from 'dayjs/plugin/isoWeek';
 import { useRef } from 'react';
 import { Dimensions, FlatList, View } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
@@ -6,6 +7,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useSchedule } from './schedule-hook';
 import { StudyingDay } from './studying-day';
+
+dayjs.extend(isoWeek);
 
 export function ScheduleScreen() {
   const { status, schedule, getNextWeek } = useSchedule();
@@ -38,7 +41,7 @@ export function ScheduleScreen() {
         disableIntervalMomentum
         onLayout={() =>
           listRef.current?.scrollToIndex({
-            index: today.day() == 0 ? 13 : today.day() + 6,
+            index: today.day() == 0 ? 6 : today.day() - 1,
           })
         }
         snapToInterval={Dimensions.get('screen').width}

@@ -31,13 +31,32 @@ function StudyingLesson({ lesson }: { lesson: Lesson }) {
     <Surface
       style={{
         padding: 8,
-        alignItems: 'center',
-        justifyContent: 'center',
+        margin: 8,
       }}
     >
-      <Text>{lesson.name}</Text>
-      <Text>{lesson.timeInterval}</Text>
-      <Text>{lesson.dateInterval}</Text>
+      <Text style={{ fontWeight: 'bold', fontSize: 16, marginBottom: 8 }}>
+        {lesson.name}
+      </Text>
+
+      {lesson.teachers.length > 0 && <Text>{lesson.teachers.join(',\n')}</Text>}
+
+      <Text>{lesson.rooms.join(', ')}</Text>
+
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: 8,
+        }}
+      >
+        <Text style={{ fontSize: 12, fontStyle: 'italic' }}>
+          {lesson.timeInterval}
+        </Text>
+        <Text style={{ fontSize: 12, fontStyle: 'italic' }}>
+          {lesson.dateInterval}
+        </Text>
+      </View>
     </Surface>
   );
 }
@@ -71,8 +90,8 @@ export function StudyingDay({
           renderItem={(l) => <StudyingLesson lesson={l.item} />}
         />
       ) : (
-        <View>
-          <Text>No lessons</Text>
+        <View style={{ alignItems: 'center' }}>
+          <Text>Сегодня нет пар</Text>
         </View>
       )}
     </SafeAreaView>
