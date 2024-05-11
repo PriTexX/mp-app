@@ -22,7 +22,7 @@ type ServiceLinkProps = {
   screenName: string;
 };
 
-function ServiceLink(props: ServiceLinkProps) {
+function ServiceLink(props: ServiceLinkProps & { key: number }) {
   const { navigate } = useNavigation<ServicesStackScreenProps['navigation']>();
 
   return (
@@ -40,30 +40,31 @@ function ServiceLink(props: ServiceLinkProps) {
 
 const services: ServiceLinkProps[][] = [
   [
-    { screenName: 'Журнал физкультуры', screenNav: 'physjournal' },
-    { screenName: 'Журнал физкультуры', screenNav: 'physjournal' },
-    { screenName: 'Журнал физкультуры', screenNav: 'physjournal' },
+    { screenName: 'Журнал физкультуры1', screenNav: 'physjournal' },
+    { screenName: 'Журнал физкультуры2', screenNav: 'physjournal' },
+    { screenName: 'Журнал физкультуры3', screenNav: 'physjournal' },
   ],
   [
-    { screenName: 'Журнал физкультуры', screenNav: 'physjournal' },
-    { screenName: 'Журнал физкультуры', screenNav: 'physjournal' },
-    { screenName: 'Журнал физкультуры', screenNav: 'physjournal' },
+    { screenName: 'Журнал физкультуры4', screenNav: 'physjournal' },
+    { screenName: 'Журнал физкультуры5', screenNav: 'physjournal' },
+    { screenName: 'Журнал физкультуры6', screenNav: 'physjournal' },
   ],
 ];
 
 const initScreen = memo(() => {
   return (
     <ScrollView contentContainerStyle={{ gap: 30 }}>
-      {services.map((row) => (
+      {services.map((row, i) => (
         <View
+          key={i}
           style={{
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'space-around',
           }}
         >
-          {row.map((s) => (
-            <ServiceLink {...s} />
+          {row.map((s, j) => (
+            <ServiceLink {...s} key={(i + 1) * (j + 1)} />
           ))}
         </View>
       ))}

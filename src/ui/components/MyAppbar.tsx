@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import { memo, useCallback, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import {
@@ -14,8 +13,6 @@ import {
 } from 'react-native-paper';
 import { useSecureStore } from 'src/store/useSecureStore';
 import { emptyUser, useUserStore } from 'src/store/useUserStore';
-
-import { HomeDrawerParamList, HomeDrawerScreenProps } from '../navigation';
 
 import type { DrawerHeaderProps } from '@react-navigation/drawer';
 
@@ -134,10 +131,6 @@ const MemoizedAppbar = memo(
     avatar: string | null;
     openDrawer: () => void;
   }) => {
-    console.log('bar did mount');
-
-    const { jumpTo } = useNavigation<HomeDrawerScreenProps['navigation']>();
-
     return (
       <Appbar.Header>
         <TouchableOpacity onPress={openDrawer}>
@@ -147,7 +140,6 @@ const MemoizedAppbar = memo(
           />
         </TouchableOpacity>
         <Appbar.Content
-          onPress={() => jumpTo('services')}
           title={title}
           titleStyle={{ fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}
         />
@@ -163,8 +155,6 @@ export function MyAppbar({
   avatar,
 }: DrawerHeaderProps & { avatar: string | null }) {
   const title = options.title ?? '???';
-
-  console.log(options);
 
   const openDrawer = useCallback(() => navigation.openDrawer(), []);
 
