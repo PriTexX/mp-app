@@ -1,3 +1,6 @@
+// https://reactnavigation.org/docs/drawer-layout#installation
+import 'react-native-gesture-handler';
+
 import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import FlashMessage from 'react-native-flash-message';
@@ -5,8 +8,7 @@ import { PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { useUserStore } from 'src/store/useUserStore';
-import { HomeNav } from 'src/ui/navigation/home-nav';
-import { LoginNav } from 'src/ui/navigation/login-nav';
+import { HomeNav, LoginNav } from 'src/ui/navigation';
 import { getTheme } from 'src/ui/theme';
 
 void SplashScreen.preventAutoHideAsync();

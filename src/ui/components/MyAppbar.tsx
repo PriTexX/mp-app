@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { memo, useCallback, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import {
@@ -12,7 +13,9 @@ import {
   Text,
 } from 'react-native-paper';
 import { useSecureStore } from 'src/store/useSecureStore';
-import { useUserStore } from 'src/store/useUserStore';
+import { emptyUser, useUserStore } from 'src/store/useUserStore';
+
+import { HomeDrawerParamList, HomeDrawerScreenProps } from '../navigation';
 
 import type { DrawerHeaderProps } from '@react-navigation/drawer';
 
@@ -63,8 +66,8 @@ function ExitComponent({ closeMenu }: { closeMenu: () => void }) {
 
   const leaveAccount = () => {
     setIsLoggedIn(false);
-    setUser(null);
-    setTokens(null);
+    setUser(emptyUser);
+    setTokens({ token: '', jwt: '', jwtRefresh: '' });
   };
 
   const [dialogVisible, setDialogVisible] = useState(false);
@@ -131,6 +134,10 @@ const MemoizedAppbar = memo(
     avatar: string | null;
     openDrawer: () => void;
   }) => {
+    console.log('bar did mount');
+
+    const { jumpTo } = useNavigation<HomeDrawerScreenProps['navigation']>();
+
     return (
       <Appbar.Header>
         <TouchableOpacity onPress={openDrawer}>
@@ -140,8 +147,9 @@ const MemoizedAppbar = memo(
           />
         </TouchableOpacity>
         <Appbar.Content
+          onPress={() => jumpTo('services')}
           title={title}
-          titleStyle={{ fontSize: 16, fontWeight: 'bold' }}
+          titleStyle={{ fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}
         />
         <AppMenu />
       </Appbar.Header>
@@ -155,6 +163,8 @@ export function MyAppbar({
   avatar,
 }: DrawerHeaderProps & { avatar: string | null }) {
   const title = options.title ?? '???';
+
+  console.log(options);
 
   const openDrawer = useCallback(() => navigation.openDrawer(), []);
 

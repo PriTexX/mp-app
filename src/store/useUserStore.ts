@@ -21,7 +21,7 @@ export type UserStore = {
   setIsLoggedIn: (isLoggedIn: boolean) => void;
 };
 
-const emptyUser = {
+export const emptyUser = {
   fullName: '',
   guid: '',
   group: '',
