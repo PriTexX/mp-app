@@ -4,7 +4,7 @@ import { memo } from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { Surface, Text } from 'react-native-paper';
 
-import { PhysJournal } from '../features/physjournal/PhysJournal';
+import { PhysJournal } from './physjournal/PhysJournal';
 
 import type { StackScreenProps } from '@react-navigation/stack';
 

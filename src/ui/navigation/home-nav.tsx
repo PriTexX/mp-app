@@ -6,9 +6,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUserStore } from 'src/store/useUserStore';
 
 import { MyAppbar } from '../components/MyAppbar';
+import { HomeScreen, TestScreen } from '../features/Home';
+import { ScheduleScreen } from '../features/schedule';
+import { ServicesScreen } from '../features/Services';
 import { NotificationsContextProvider } from '../notifications';
-import { HomeScreen, ScheduleScreen, TestScreen } from '../screens';
-import { ServicesScreen } from '../screens/Services';
 
 import type { DrawerScreenProps } from '@react-navigation/drawer';
 

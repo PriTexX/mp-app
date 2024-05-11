@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { LoginScreen, NewLoginScreen } from '../screens';
+import { LoginScreen, NewLoginScreen } from '../features/Login';
 
 import type { StackScreenProps } from '@react-navigation/stack';
 
