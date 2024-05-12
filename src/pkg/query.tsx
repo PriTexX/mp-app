@@ -14,7 +14,7 @@ export type UseQueryHook<T, Error> =
 
 export function useQuery<T, Error>(
   queryKey: string,
-  queryFn: () => Promise<Result<T, Error>> | Result<T, Error>,
+  queryFn: () => Promise<Result<T, Error>>,
 ): UseQueryHook<T, Error> {
   const { status, data, error } = reactUseQuery(queryKey, queryFn);
 

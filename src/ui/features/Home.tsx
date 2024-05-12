@@ -13,17 +13,17 @@ import { styles } from '../styles';
 export function HomeScreen() {
   const setUser = useUserStore((s) => s.setUser);
 
-  const tokens = useSecureStore((s) => s.tokens);
+  const token = useSecureStore((s) => s.tokens.token);
 
   useEffect(() => {
     const getUserInfo = async () => {
-      if (!tokens) {
+      if (!token) {
         return;
       }
 
       const [userData, userAvatar] = await Promise.all([
-        lkClient.getUserData(tokens?.token),
-        lkClient.getUserAvatar(tokens.token),
+        lkClient.getUserData(token),
+        lkClient.getUserAvatar(token),
       ]);
 
       if (userData.isErr() || userAvatar.isErr()) {
@@ -56,7 +56,7 @@ export function HomeScreen() {
     };
 
     void getUserInfo();
-  }, [tokens]);
+  }, [token]);
 
   return (
     <SafeAreaView style={styles.container} onLayout={hideAsync}>

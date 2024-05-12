@@ -52,11 +52,11 @@ export function LoginScreen() {
       return;
     }
 
-    setIsLoggedIn(true);
-
     const { token, jwt, jwt_refresh: jwtRefresh } = resp.value;
     setSecureTokens({ token, jwt, jwtRefresh });
-  }, []);
+
+    setIsLoggedIn(true);
+  }, [login, password]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
