@@ -9,7 +9,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { useUserStore } from 'src/store/useUserStore';
 import { HomeNav, LoginNav } from 'src/ui/navigation';
-import { getTheme } from 'src/ui/theme';
+import { useAppTheme } from 'src/ui/theme';
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -17,7 +17,7 @@ const queryClient = new QueryClient();
 
 export default function App() {
   const isLoggedIn = useUserStore((s) => s.isLoggedIn);
-  const darkTheme = getTheme();
+  const darkTheme = useAppTheme();
 
   return (
     <SafeAreaProvider>

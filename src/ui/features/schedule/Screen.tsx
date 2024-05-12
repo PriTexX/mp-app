@@ -6,7 +6,7 @@ import { ActivityIndicator, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useSchedule } from './schedule-hook';
-import { StudyingDay } from './studying-day';
+import { StudyingDay } from './StudyingDay';
 
 dayjs.extend(isoWeek);
 

@@ -6,9 +6,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUserStore } from 'src/store/useUserStore';
 
 import { MyAppbar } from '../components/MyAppbar';
-import { HomeScreen, TestScreen } from '../features/Home';
+import { HomeScreen } from '../features/Home';
 import { ScheduleScreen } from '../features/schedule';
 import { ServicesScreen } from '../features/Services';
+import { SettingsScreen } from '../features/settings';
 import { NotificationsContextProvider } from '../notifications';
 
 import type { DrawerScreenProps } from '@react-navigation/drawer';
@@ -17,7 +18,7 @@ export type HomeDrawerParamList = {
   main: undefined;
   schedule: undefined;
   services: undefined;
-  test: undefined;
+  settings: undefined;
 };
 
 export type HomeDrawerScreenProps = DrawerScreenProps<HomeDrawerParamList>;
@@ -48,7 +49,7 @@ const MemoizedDrawerContent = memo(() => {
         <PaperDrawer.Item
           label="Настройки"
           icon="cog"
-          onPress={() => navigate('test')}
+          onPress={() => navigate('settings')}
         />
       </PaperDrawer.Section>
     </SafeAreaView>
@@ -95,9 +96,9 @@ export function HomeNav() {
           component={ServicesScreen}
         ></Drawer.Screen>
         <Drawer.Screen
-          name="test"
-          options={{ title: 'Тестовая страница' }}
-          component={TestScreen}
+          name="settings"
+          options={{ title: 'Настройки' }}
+          component={SettingsScreen}
         ></Drawer.Screen>
       </Drawer.Navigator>
     </NotificationsContextProvider>
