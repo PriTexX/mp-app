@@ -4,7 +4,7 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import FlashMessage from 'react-native-flash-message';
-import { PaperProvider } from 'react-native-paper';
+import { PaperProvider, Portal } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { useUserStore } from 'src/store/useUserStore';
@@ -22,11 +22,13 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <PaperProvider theme={darkTheme}>
-        <NavigationContainer theme={darkTheme}>
-          <QueryClientProvider client={queryClient}>
-            {isLoggedIn ? <HomeNav /> : <LoginNav />}
-          </QueryClientProvider>
-        </NavigationContainer>
+        <Portal>
+          <NavigationContainer theme={darkTheme}>
+            <QueryClientProvider client={queryClient}>
+              {isLoggedIn ? <HomeNav /> : <LoginNav />}
+            </QueryClientProvider>
+          </NavigationContainer>
+        </Portal>
       </PaperProvider>
       <FlashMessage
         position="bottom"

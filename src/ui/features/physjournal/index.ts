@@ -1,1 +1,1 @@
-export * from './PhysJournal';
+export * from './PhysEdJournal';

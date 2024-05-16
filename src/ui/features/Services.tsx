@@ -4,7 +4,7 @@ import { memo } from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { Surface, Text } from 'react-native-paper';
 
-import { PhysJournal } from './physjournal/PhysJournal';
+import { PhysEdJournal } from './physjournal/PhysEdJournal';
 
 import type { StackScreenProps } from '@react-navigation/stack';
 
@@ -76,7 +76,7 @@ export function ServicesScreen() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="init" component={initScreen} />
-      <Stack.Screen name="physjournal" component={PhysJournal} />
+      <Stack.Screen name="physjournal" component={PhysEdJournal} />
     </Stack.Navigator>
   );
 }
