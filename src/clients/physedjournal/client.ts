@@ -29,6 +29,31 @@ export class PhysEdJournalClient {
           course
           hasDebtFromPreviousSemester
           archivedVisitValue
+
+          visitsHistory {
+            date
+            teacher {
+              fullName
+            }
+          }
+
+          standardsHistory {
+            date
+            teacher {
+              fullName
+            }
+            points
+            standardType
+          }
+
+          pointsHistory {
+            date
+            teacher {
+              fullName
+            }
+            points
+            workType
+          }
         }
       }
     `;

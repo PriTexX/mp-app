@@ -1,7 +1,11 @@
-import { memo, useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { Modal, Surface, Text } from 'react-native-paper';
+import { memo, useMemo, useState } from 'react';
+import { FlatList, View } from 'react-native';
+import { SegmentedButtons, Surface, Text, useTheme } from 'react-native-paper';
 
+import { History, HistoryHeader } from './History';
+
+import type { HistoryLike } from './History';
+import type { ReactElement } from 'react';
 import type { StudentData } from 'src/clients/physedjournal';
 
 function calculateTotalPoints(data: StudentData['data']['student']) {
@@ -21,7 +25,7 @@ function CellContent({
   fontSize,
 }: {
   title: string;
-  content: string | number;
+  content: string | number | ReactElement;
   fontSize?: number;
 }) {
   return (
@@ -43,48 +47,118 @@ function CellContent({
       >
         {title}
       </Text>
-      <Text style={{ alignSelf: 'center', fontSize }}>{content}</Text>
+      {typeof content == 'object' ? (
+        content
+      ) : (
+        <Text style={{ alignSelf: 'center', fontSize }}>{content}</Text>
+      )}
     </Surface>
   );
+}
+
+type HistoryType = 'visits' | 'standards' | 'other';
+
+function dataPicker(
+  data: StudentData['data']['student'],
+  historyType: HistoryType,
+): HistoryLike[] {
+  switch (historyType) {
+    case 'visits':
+      return data.visitsHistory.map((h) => ({
+        date: h.date,
+        teacher: h.teacher.fullName,
+      }));
+
+    case 'standards':
+      return data.standardsHistory.map((h) => ({
+        date: h.date,
+        type: h.standardType,
+        teacher: h.teacher.fullName,
+        points: h.points,
+      }));
+
+    case 'other':
+      return data.pointsHistory.map((h) => ({
+        date: h.date,
+        type: h.workType,
+        teacher: h.teacher.fullName,
+        points: h.points,
+      }));
+  }
 }
 
 export const MainContent = memo(
   ({ data }: { data: StudentData['data']['student'] }) => {
     const totalPoints = calculateTotalPoints(data);
 
-    const [curatorModalVisible, setCuratorModalVisible] = useState(false);
+    const { colors } = useTheme();
+
+    const [historyType, setHistoryType] = useState<HistoryType>('visits');
+
+    const historyData = useMemo(
+      () => dataPicker(data, historyType),
+      [historyType],
+    );
 
     return (
       <View style={{ flex: 1 }}>
         <View
           style={{
-            flex: 1,
             marginTop: 38,
             flexDirection: 'row',
             justifyContent: 'space-around',
           }}
         >
-          <Modal
-            visible={curatorModalVisible}
-            onDismiss={() => setCuratorModalVisible(false)}
-            contentContainerStyle={{
-              padding: 20,
-              alignItems: 'center',
-              marginBottom: 300,
-            }}
-          >
-            <CellContent
-              title="Куратор группы"
-              content={data.group.curator.fullName}
-              fontSize={12}
-            />
-          </Modal>
-          <TouchableOpacity onPress={() => setCuratorModalVisible(true)}>
-            <CellContent title="Группа" content={data.group.groupName} />
-          </TouchableOpacity>
+          <CellContent
+            title="Группа"
+            content={
+              <View>
+                <Text style={{ alignSelf: 'center', fontSize: 12 }}>
+                  {data.group.groupName}
+                </Text>
+                <Text
+                  style={{ alignSelf: 'center', fontSize: 9, marginTop: 10 }}
+                >
+                  {data.group.curator.fullName}
+                </Text>
+              </View>
+            }
+          />
+
           <CellContent title="Баллы" content={totalPoints} />
           <CellContent title="Курс" content={data.course} />
         </View>
+
+        <SegmentedButtons
+          style={{ marginHorizontal: 20, marginTop: 26 }}
+          value={historyType}
+          onValueChange={(v) => setHistoryType(v as HistoryType)}
+          multiSelect={false}
+          buttons={[
+            { value: 'visits', label: 'Посещения' },
+            { value: 'standards', label: 'Нормативы' },
+            { value: 'other', label: 'Другое' },
+          ]}
+        />
+
+        <FlatList
+          style={{ marginHorizontal: 10 }}
+          data={historyData}
+          renderItem={(d) => <History data={d.item} />}
+          ListHeaderComponent={() => (
+            <HistoryHeader isVisits={historyType == 'visits'} />
+          )}
+          ListHeaderComponentStyle={{
+            marginBottom: 16,
+          }}
+          contentContainerStyle={{
+            gap: 16,
+            marginTop: 16,
+            backgroundColor: colors.backdrop,
+            padding: 8,
+            borderRadius: 6,
+          }}
+        />
       </View>
     );
   },
