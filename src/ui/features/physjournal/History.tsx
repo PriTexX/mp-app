@@ -2,6 +2,9 @@ import { memo } from 'react';
 import { View } from 'react-native';
 import { Text } from 'react-native-paper';
 
+import type { HistoryType } from './MainContent';
+import type { StudentData } from 'src/clients/physedjournal';
+
 export type HistoryLike = {
   date: string;
   teacher: string;
@@ -46,3 +49,54 @@ export const History = memo(({ data }: { data: HistoryLike }) => {
     </View>
   );
 });
+
+const standardTypeToName: Record<string, string> = {
+  FLEXION_AND_EXTENSION_OF_ARMS: 'Сведение разведение рук',
+  JUMPING_ROPE_JUMPS: 'Прыжки с скакалкой',
+  JUMPS: 'Прыжки',
+  OTHER: 'Другое',
+  PULL_UPS: 'Подтягивания',
+  SHUTTLE_RUN: 'Челночный бег',
+  SQUATS: 'Приседания',
+  TILTS: 'Отжимания',
+  TORSO_LIFTS: 'Пресс',
+};
+
+const workTypeToName: Record<string, string> = {
+  ACTIVIST: 'Активист',
+  COMPETITION: 'Соревнования',
+  EXTERNAL_FITNESS: 'Внешний фитнесс',
+  GTO: 'ГТО',
+  INTERNAL_TEAM: 'Внутренняя команда',
+  ONLINE_WORK: 'ЛМС',
+  SCIENCE: 'Наука',
+};
+
+export function dataPicker(
+  data: StudentData['data']['student'],
+  historyType: HistoryType,
+): HistoryLike[] {
+  switch (historyType) {
+    case 'visits':
+      return data.visitsHistory.map((h) => ({
+        date: h.date,
+        teacher: h.teacher.fullName,
+      }));
+
+    case 'standards':
+      return data.standardsHistory.map((h) => ({
+        date: h.date,
+        type: standardTypeToName[h.standardType],
+        teacher: h.teacher.fullName,
+        points: h.points,
+      }));
+
+    case 'other':
+      return data.pointsHistory.map((h) => ({
+        date: h.date,
+        type: workTypeToName[h.workType],
+        teacher: h.teacher.fullName,
+        points: h.points,
+      }));
+  }
+}

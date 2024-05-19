@@ -2,9 +2,8 @@ import { memo, useMemo, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { SegmentedButtons, Surface, Text, useTheme } from 'react-native-paper';
 
-import { History, HistoryHeader } from './History';
+import { dataPicker, History, HistoryHeader } from './History';
 
-import type { HistoryLike } from './History';
 import type { ReactElement } from 'react';
 import type { StudentData } from 'src/clients/physedjournal';
 
@@ -56,36 +55,7 @@ function CellContent({
   );
 }
 
-type HistoryType = 'visits' | 'standards' | 'other';
-
-function dataPicker(
-  data: StudentData['data']['student'],
-  historyType: HistoryType,
-): HistoryLike[] {
-  switch (historyType) {
-    case 'visits':
-      return data.visitsHistory.map((h) => ({
-        date: h.date,
-        teacher: h.teacher.fullName,
-      }));
-
-    case 'standards':
-      return data.standardsHistory.map((h) => ({
-        date: h.date,
-        type: h.standardType,
-        teacher: h.teacher.fullName,
-        points: h.points,
-      }));
-
-    case 'other':
-      return data.pointsHistory.map((h) => ({
-        date: h.date,
-        type: h.workType,
-        teacher: h.teacher.fullName,
-        points: h.points,
-      }));
-  }
-}
+export type HistoryType = 'visits' | 'standards' | 'other';
 
 export const MainContent = memo(
   ({ data }: { data: StudentData['data']['student'] }) => {
