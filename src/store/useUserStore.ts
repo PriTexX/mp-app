@@ -11,6 +11,15 @@ export type User = {
   specialty: string;
   specialtyCode: string;
   specialization: string;
+  status: string;
+  sex: string;
+  birthday: string;
+  degreeLength: string;
+  faculty: string;
+  educationForm: string;
+  finance: string;
+  degreeLevel: string;
+  enterYear: string;
 };
 
 export type UserStore = {
@@ -30,6 +39,15 @@ export const emptyUser = {
   specialization: '',
   specialty: '',
   specialtyCode: '',
+  status: '',
+  sex: '',
+  birthday: '',
+  degreeLength: '',
+  faculty: '',
+  educationForm: '',
+  finance: '',
+  degreeLevel: '',
+  enterYear: '',
 } as const;
 
 export const useUserStore = create(

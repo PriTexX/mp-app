@@ -30,8 +30,9 @@ function StudyingLesson({ lesson }: { lesson: Lesson }) {
   return (
     <Surface
       style={{
-        padding: 8,
+        padding: 12,
         margin: 8,
+        borderRadius: 12,
       }}
     >
       <Text style={{ fontWeight: 'bold', fontSize: 16, marginBottom: 8 }}>
@@ -65,7 +66,7 @@ export function StudyingDay({
   learningDay: { date, lessons },
 }: StudyingDayProps) {
   return (
-    <SafeAreaView style={{ width: Dimensions.get('screen').width }}>
+    <View style={{ width: Dimensions.get('screen').width }}>
       <Surface
         style={{
           padding: 12,
@@ -94,6 +95,6 @@ export function StudyingDay({
           <Text>Сегодня нет пар</Text>
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 }

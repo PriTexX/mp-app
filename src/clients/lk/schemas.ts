@@ -2,7 +2,6 @@ import { z } from 'zod';
 
 export const userDataSchema = z.object({
   guid_person: z.string(),
-  user_status: z.enum(['stud', 'staff']),
   group: z.string(),
   name: z.string(),
   surname: z.string(),
@@ -11,6 +10,15 @@ export const userDataSchema = z.object({
   specialty: z.string(),
   specialty_code: z.string(),
   specialization: z.string(),
+  birthday: z.string(),
+  degreeLength: z.string(),
+  learn_status: z.string(),
+  faculty: z.string(),
+  educationForm: z.string(),
+  finance: z.string(),
+  degreeLevel: z.string(),
+  enterYear: z.string(),
+  sex: z.string(),
 });
 
 export const userAvatarSchema = z.object({
