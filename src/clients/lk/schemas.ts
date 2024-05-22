@@ -45,3 +45,17 @@ export const studentScheduleSchema = z.object({
   Friday: z.object({ lessons: z.array(lessonSchema) }),
   Saturday: z.object({ lessons: z.array(lessonSchema) }),
 });
+
+export const pdInfoSchema = z.object({
+  curator: z.string(),
+  current_att1: z.string(),
+  current_att2: z.string(),
+  current_att_mid: z.string(),
+  current_semestr_balls: z.string(),
+  current_semestr_result: z.string(),
+  last_semestr_balls: z.string(),
+  last_semestr_result: z.string(),
+  project: z.string(),
+  project_theme: z.string(),
+  subproject: z.string(),
+});

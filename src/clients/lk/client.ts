@@ -3,6 +3,7 @@ import { formUrlEncoded } from 'src/utils';
 import { z } from 'zod';
 
 import {
+  pdInfoSchema,
   studentScheduleSchema,
   userAvatarSchema,
   userDataSchema,
@@ -67,6 +68,17 @@ export class LkClient {
         getSchedule: true,
         token: phpToken,
         ...(session ? { session: true } : { group }),
+      },
+    });
+  }
+
+  getPdInfo(token: string) {
+    return this.client.fetch(pdInfoSchema, {
+      url: 'old/lk_api.php',
+      method: 'get',
+      searchParams: {
+        PDinfo: true,
+        token,
       },
     });
   }

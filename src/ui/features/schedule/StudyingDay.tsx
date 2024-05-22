@@ -1,6 +1,5 @@
 import { Dimensions, FlatList, View } from 'react-native';
 import { Surface, Text } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import type { LearningDay } from './types';
 import type { Lesson } from 'src/clients/lk';
