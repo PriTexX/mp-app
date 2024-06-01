@@ -11,6 +11,12 @@ import { useUserStore } from 'src/store/useUserStore';
 import { HomeNav, LoginNav } from 'src/ui/navigation';
 import { useAppTheme } from 'src/ui/theme';
 
+import 'dayjs/locale/ru';
+
+import dayjs from 'dayjs';
+
+dayjs.locale('ru');
+
 void SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();

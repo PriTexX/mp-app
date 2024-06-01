@@ -1,11 +1,14 @@
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
+import HTMLView from 'react-native-htmlview';
 import {
   ActivityIndicator,
   Modal,
   Portal,
   Surface,
   Text,
+  useTheme,
 } from 'react-native-paper';
 import { lkClient } from 'src/clients/lk';
 import { useQuery } from 'src/pkg/query';
@@ -15,6 +18,8 @@ import type { News } from 'src/clients/lk';
 
 function NewsBlock({ news }: { news: News }) {
   const [visible, setVisible] = useState(false);
+
+  const { colors } = useTheme();
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
@@ -29,10 +34,25 @@ function NewsBlock({ news }: { news: News }) {
             borderRadius: 8,
             marginBottom: 16,
             padding: 8,
-            justifyContent: 'center',
           }}
         >
-          <Text style={{ textAlign: 'center' }}>{news.title}</Text>
+          <View style={{ flex: 4, justifyContent: 'center' }}>
+            <Text style={{ textAlign: 'center' }}>{news.title}</Text>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              borderTopWidth: 1,
+              borderColor: 'grey',
+              justifyContent: 'center',
+            }}
+          >
+            <Text
+              style={{ fontSize: 12, fontStyle: 'italic', textAlign: 'center' }}
+            >
+              {dayjs(news.date).format('DD MMM YYYY')} {news.time}
+            </Text>
+          </View>
         </Surface>
       </TouchableOpacity>
       <Portal>
@@ -41,10 +61,34 @@ function NewsBlock({ news }: { news: News }) {
           onDismiss={hideModal}
           contentContainerStyle={{
             padding: 20,
-            backgroundColor: 'white',
+            borderRadius: 8,
+            marginHorizontal: 30,
+            marginVertical: 80,
+            backgroundColor: colors.tertiary,
           }}
         >
-          <Text style={{ color: 'black' }}>{news.content}</Text>
+          <ScrollView>
+            <View
+              style={{
+                borderBottomWidth: 1,
+                borderColor: 'grey',
+                gap: 4,
+                paddingBottom: 8,
+              }}
+            >
+              <Text
+                style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}
+              >
+                {news.title}
+              </Text>
+              <Text
+                style={{ fontSize: 14, fontStyle: 'italic', color: 'black' }}
+              >
+                {dayjs(news.date).format('DD MMM YYYY')} {news.time}
+              </Text>
+            </View>
+            <HTMLView value={news.content} />
+          </ScrollView>
         </Modal>
       </Portal>
     </>
