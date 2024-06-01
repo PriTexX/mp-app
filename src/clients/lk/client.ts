@@ -94,6 +94,19 @@ export class LkClient {
       },
     });
   }
+
+  knowYourLogin(fio: string, passNum: string) {
+    return this.client.fetch(z.string(), {
+      url: 'old/lk_api.php',
+      method: 'get',
+      toText: true,
+      searchParams: {
+        getADName: true,
+        fio,
+        pn: passNum,
+      },
+    });
+  }
 }
 
 export const lkClient = new LkClient();

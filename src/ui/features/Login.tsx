@@ -7,7 +7,6 @@ import {
   ActivityIndicator,
   Button,
   Surface,
-  Text,
   TextInput,
   useTheme,
 } from 'react-native-paper';
@@ -15,8 +14,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { lkClient } from 'src/clients/lk';
 import { useSecureStore } from 'src/store/useSecureStore';
 import { useUserStore } from 'src/store/useUserStore';
-
-import { styles } from '../styles';
 
 import type { LoginStackScreenProps } from '../navigation/login-nav';
 import type { RNTextInput } from '../types';
@@ -127,31 +124,14 @@ export function LoginScreen() {
             justifyContent: 'space-between',
           }}
         >
-          <Button style={{ width: 100 }} mode="elevated" onPress={lkLogin}>
-            Login
+          <Button mode="elevated" onPress={lkLogin}>
+            Войти
           </Button>
-          <Button style={{ width: 100 }} onPress={() => navigate('new-login')}>
-            Move
+          <Button onPress={() => navigate('know-your-login')}>
+            Узнать свой логин
           </Button>
         </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
-  );
-}
-
-export function NewLoginScreen() {
-  const setIsLoggedIn = useUserStore((s) => s.setIsLoggedIn);
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <Text>Hello new login</Text>
-      <Button
-        onPress={() => {
-          setIsLoggedIn(true);
-        }}
-      >
-        Login
-      </Button>
-    </SafeAreaView>
   );
 }

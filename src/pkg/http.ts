@@ -49,17 +49,19 @@ export class HTTPClient {
 
   async fetch<T extends z.ZodType>(
     schema: T,
-    options: Options,
+    options: Options & { toText?: boolean },
   ): Promise<Result<T['_output'], FetchError>> {
     const { url } = options;
 
     try {
-      const raw = await this.client(url, {
+      const res = await this.client(url, {
         ...options,
         searchParams: options.searchParams
           ? cleanObject(options.searchParams)
           : undefined,
-      }).json();
+      });
+
+      const raw = options.toText ? await res.text() : await res.json();
 
       const parsed = schema.safeParse(raw);
 

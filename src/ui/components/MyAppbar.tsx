@@ -8,6 +8,7 @@ import {
   Divider,
   Icon,
   Menu,
+  Portal,
   Text,
 } from 'react-native-paper';
 import { useSecureStore } from 'src/store/useSecureStore';
@@ -25,29 +26,33 @@ function ExitDialog({
   leaveFn: () => void;
 }) {
   return (
-    <Dialog visible={visible} onDismiss={hideDialog}>
-      <Dialog.Icon icon="exit-run" size={40} />
-      <Dialog.Content style={{ marginTop: 15 }}>
-        <Text variant="bodyMedium">Уверены что хотите выйти?</Text>
-      </Dialog.Content>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Dialog.Actions>
-          <Button style={{ marginRight: 10, width: 90 }} onPress={hideDialog}>
-            Отмена
-          </Button>
-        </Dialog.Actions>
-        <Dialog.Actions>
-          <Button style={{ width: 90 }} onPress={leaveFn}>
-            <Text style={{ color: '#a31717' }}>Да</Text>
-          </Button>
-        </Dialog.Actions>
-      </View>
-    </Dialog>
+    <Portal>
+      <Dialog visible={visible} onDismiss={hideDialog}>
+        <Dialog.Icon icon="exit-run" size={40} />
+        <Dialog.Content style={{ marginTop: 15 }}>
+          <Text variant="bodyMedium" style={{ textAlign: 'center' }}>
+            Уверены что хотите выйти?
+          </Text>
+        </Dialog.Content>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Dialog.Actions>
+            <Button style={{ width: 90 }} onPress={leaveFn}>
+              <Text style={{ color: '#a31717' }}>Да</Text>
+            </Button>
+          </Dialog.Actions>
+          <Dialog.Actions>
+            <Button style={{ marginRight: 40, width: 90 }} onPress={hideDialog}>
+              Отмена
+            </Button>
+          </Dialog.Actions>
+        </View>
+      </Dialog>
+    </Portal>
   );
 }
 
@@ -109,6 +114,7 @@ function AppMenu() {
           onPress={() => setMenuVisible(true)}
         />
       }
+      anchorPosition="bottom"
     >
       <Menu.Item title="Test item" onPress={() => {}} />
       <Menu.Item title="Test item 2" onPress={() => {}} />
