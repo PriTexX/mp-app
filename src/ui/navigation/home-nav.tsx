@@ -7,6 +7,7 @@ import { useUserStore } from 'src/store/useUserStore';
 
 import { MyAppbar } from '../components/MyAppbar';
 import { HomeScreen } from '../features/Home';
+import { NewsScreen } from '../features/News';
 import { ScheduleScreen } from '../features/schedule';
 import { ServicesScreen } from '../features/Services';
 import { SettingsScreen } from '../features/settings';
@@ -19,6 +20,7 @@ export type HomeDrawerParamList = {
   schedule: undefined;
   services: undefined;
   settings: undefined;
+  news: undefined;
 };
 
 export type HomeDrawerScreenProps = DrawerScreenProps<HomeDrawerParamList>;
@@ -40,6 +42,11 @@ const MemoizedDrawerContent = memo(() => {
           label="Расписание"
           icon="calendar"
           onPress={() => navigate('schedule')}
+        />
+        <PaperDrawer.Item
+          label="Новости"
+          icon="newspaper"
+          onPress={() => navigate('news')}
         />
         <PaperDrawer.Item
           label="Сервисы"
@@ -84,22 +91,27 @@ export function HomeNav() {
           name="main"
           options={{ title: 'Домашняя страница' }}
           component={HomeScreen}
-        ></Drawer.Screen>
+        />
         <Drawer.Screen
           name="schedule"
           options={{ title: 'Расписание' }}
           component={ScheduleScreen}
-        ></Drawer.Screen>
+        />
+        <Drawer.Screen
+          name="news"
+          options={{ title: 'Новости' }}
+          component={NewsScreen}
+        />
         <Drawer.Screen
           name="services"
           options={{ title: 'Сервисы' }}
           component={ServicesScreen}
-        ></Drawer.Screen>
+        />
         <Drawer.Screen
           name="settings"
           options={{ title: 'Настройки' }}
           component={SettingsScreen}
-        ></Drawer.Screen>
+        />
       </Drawer.Navigator>
     </NotificationsContextProvider>
   );

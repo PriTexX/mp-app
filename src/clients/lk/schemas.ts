@@ -59,3 +59,11 @@ export const pdInfoSchema = z.object({
   project_theme: z.string(),
   subproject: z.string(),
 });
+
+export const newsSchema = z.object({
+  title: z.string(),
+  content: z.string(),
+  date: z.string(),
+  time: z.string(),
+  id: z.string(),
+});

@@ -3,6 +3,7 @@ import { formUrlEncoded } from 'src/utils';
 import { z } from 'zod';
 
 import {
+  newsSchema,
   pdInfoSchema,
   studentScheduleSchema,
   userAvatarSchema,
@@ -38,35 +39,35 @@ export class LkClient {
     );
   }
 
-  getUserData(phpToken: string) {
+  getUserData(token: string) {
     return this.client.fetch(userDataSchema, {
       url: 'old/lk_api.php',
       method: 'get',
       searchParams: {
         getAppData: true,
-        token: phpToken,
+        token,
       },
     });
   }
 
-  getUserAvatar(phpToken: string) {
+  getUserAvatar(token: string) {
     return this.client.fetch(userAvatarSchema, {
       url: 'old/lk_api.php',
       method: 'get',
       searchParams: {
         getUser: true,
-        token: phpToken,
+        token,
       },
     });
   }
 
-  getSchedule(phpToken: string, group: string, session?: boolean) {
+  getSchedule(token: string, group: string, session?: boolean) {
     return this.client.fetch(studentScheduleSchema, {
       url: 'old/lk_api.php',
       method: 'get',
       searchParams: {
         getSchedule: true,
-        token: phpToken,
+        token,
         ...(session ? { session: true } : { group }),
       },
     });
@@ -78,6 +79,17 @@ export class LkClient {
       method: 'get',
       searchParams: {
         PDinfo: true,
+        token,
+      },
+    });
+  }
+
+  getNews(token: string) {
+    return this.client.fetch(z.array(newsSchema), {
+      url: 'old/lk_api.php',
+      method: 'get',
+      searchParams: {
+        getAlerts: true,
         token,
       },
     });
