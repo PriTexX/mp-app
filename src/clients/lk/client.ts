@@ -3,6 +3,7 @@ import { formUrlEncoded } from 'src/utils';
 import { z } from 'zod';
 
 import {
+  academicPerformanceSchema,
   newsSchema,
   pdInfoSchema,
   studentScheduleSchema,
@@ -106,6 +107,21 @@ export class LkClient {
         pn: passNum,
       },
     });
+  }
+
+  getAcademicPerformance(token: string) {
+    return this.client.fetch(
+      z.object({ academicPerformance: z.array(academicPerformanceSchema) }),
+      {
+        url: 'old/lk_api.php',
+        method: 'get',
+        searchParams: {
+          getAcademicPerformance: true,
+          token,
+          semestr: 6,
+        },
+      },
+    );
   }
 }
 

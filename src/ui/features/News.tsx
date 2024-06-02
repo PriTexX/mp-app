@@ -2,17 +2,12 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
 import HTMLView from 'react-native-htmlview';
-import {
-  ActivityIndicator,
-  Modal,
-  Portal,
-  Surface,
-  Text,
-  useTheme,
-} from 'react-native-paper';
+import { Modal, Portal, Surface, Text, useTheme } from 'react-native-paper';
 import { lkClient } from 'src/clients/lk';
 import { useQuery } from 'src/pkg/query';
 import { useSecureStore } from 'src/store/useSecureStore';
+
+import { Loader } from '../components/Loader';
 
 import type { News } from 'src/clients/lk';
 
@@ -150,15 +145,5 @@ export function NewsScreen() {
     );
   }
 
-  return (
-    <View
-      style={{
-        height: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <ActivityIndicator size="large" />
-    </View>
-  );
+  return <Loader />;
 }

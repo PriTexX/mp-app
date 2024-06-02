@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUserStore } from 'src/store/useUserStore';
 
 import { MyAppbar } from '../components/MyAppbar';
+import { AcademicPerformanceScreen } from '../features/AcademicPerformance';
 import { HomeScreen } from '../features/Home';
 import { NewsScreen } from '../features/News';
 import { ScheduleScreen } from '../features/schedule';
@@ -21,6 +22,7 @@ export type HomeDrawerParamList = {
   services: undefined;
   settings: undefined;
   news: undefined;
+  'academic-performance': undefined;
 };
 
 export type HomeDrawerScreenProps = DrawerScreenProps<HomeDrawerParamList>;
@@ -32,7 +34,7 @@ const MemoizedDrawerContent = memo(() => {
 
   return (
     <SafeAreaView>
-      <PaperDrawer.Section title="Базовые">
+      <PaperDrawer.Section title="Основные">
         <PaperDrawer.Item
           label="Home"
           icon="home"
@@ -44,6 +46,11 @@ const MemoizedDrawerContent = memo(() => {
           onPress={() => navigate('schedule')}
         />
         <PaperDrawer.Item
+          label="Успеваемость"
+          icon="check-circle-outline"
+          onPress={() => navigate('academic-performance')}
+        />
+        <PaperDrawer.Item
           label="Новости"
           icon="newspaper"
           onPress={() => navigate('news')}
@@ -53,12 +60,12 @@ const MemoizedDrawerContent = memo(() => {
           icon="apps"
           onPress={() => navigate('services')}
         />
-        <PaperDrawer.Item
-          label="Настройки"
-          icon="cog"
-          onPress={() => navigate('settings')}
-        />
       </PaperDrawer.Section>
+      <PaperDrawer.Item
+        label="Настройки"
+        icon="cog"
+        onPress={() => navigate('settings')}
+      />
     </SafeAreaView>
   );
 });
@@ -96,6 +103,11 @@ export function HomeNav() {
           name="schedule"
           options={{ title: 'Расписание' }}
           component={ScheduleScreen}
+        />
+        <Drawer.Screen
+          name="academic-performance"
+          options={{ title: 'Успеваемость' }}
+          component={AcademicPerformanceScreen}
         />
         <Drawer.Screen
           name="news"

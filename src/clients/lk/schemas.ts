@@ -67,3 +67,15 @@ export const newsSchema = z.object({
   time: z.string(),
   id: z.string(),
 });
+
+export const academicPerformanceSchema = z.object({
+  bill_num: z.string(),
+  chair: z.string(),
+  exam_date: z.string(),
+  exam_time: z.string(),
+  exam_type: z.string(),
+  grade: z.string(),
+  id: z.string(),
+  name: z.string(),
+  teacher: z.string(),
+});
