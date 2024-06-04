@@ -4,6 +4,7 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 export type Settings = {
   isDarkMode: boolean;
+  receiveNotifications: boolean;
 };
 
 export type SettingsStore = {
@@ -13,6 +14,7 @@ export type SettingsStore = {
 
 export const defaultSettings = {
   isDarkMode: true,
+  receiveNotifications: false,
 } as const satisfies Settings;
 
 export const useSettingsStore = create(

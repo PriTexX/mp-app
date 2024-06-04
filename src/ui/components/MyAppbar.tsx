@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { memo, useCallback, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import {
@@ -14,6 +15,7 @@ import {
 import { useSecureStore } from 'src/store/useSecureStore';
 import { emptyUser, useUserStore } from 'src/store/useUserStore';
 
+import type { HomeDrawerScreenProps } from '../navigation';
 import type { DrawerHeaderProps } from '@react-navigation/drawer';
 
 function ExitDialog({
@@ -102,6 +104,8 @@ function ExitComponent({ closeMenu }: { closeMenu: () => void }) {
 function AppMenu() {
   const [menuVisible, setMenuVisible] = useState(false);
 
+  const { navigate } = useNavigation<HomeDrawerScreenProps['navigation']>();
+
   const closeMenu = useCallback(() => setMenuVisible(false), []);
 
   return (
@@ -116,8 +120,8 @@ function AppMenu() {
       }
       anchorPosition="bottom"
     >
-      <Menu.Item title="Test item" onPress={() => {}} />
-      <Menu.Item title="Test item 2" onPress={() => {}} />
+      <Menu.Item title="Профиль" onPress={() => navigate('main')} />
+      <Menu.Item title="Настройки" onPress={() => navigate('settings')} />
       <Divider />
       <ExitComponent closeMenu={closeMenu} />
     </Menu>
