@@ -57,6 +57,10 @@ export function HomeScreen() {
 
   useEffect(() => {
     const getUserInfo = async () => {
+      if (!token) {
+        return;
+      }
+
       const data = await loadUserData(token);
 
       if (data.isErr()) {
