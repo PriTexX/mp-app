@@ -9,15 +9,15 @@ import type { LearningDay } from './types';
 import type { Dayjs } from 'dayjs';
 import type { Lesson, StudentSchedule } from 'src/clients/lk';
 
-const dayToDayNum = {
-  0: 'Sunday',
-  1: 'Monday',
-  2: 'Tuesday',
-  3: 'Wednesday',
-  4: 'Thursday',
-  5: 'Friday',
-  6: 'Saturday',
-} as const;
+// const dayToDayNum = {
+//   0: 'Sunday',
+//   1: 'Monday',
+//   2: 'Tuesday',
+//   3: 'Wednesday',
+//   4: 'Thursday',
+//   5: 'Friday',
+//   6: 'Saturday',
+// } as const;
 
 const abbrvToMonths = {
   Янв: 0,
@@ -37,11 +37,13 @@ const abbrvToMonths = {
 type AbbrvMonths = keyof typeof abbrvToMonths;
 
 function getDaySchedule(schedule: StudentSchedule, date: Date) {
-  const dayOfWeek = schedule[dayToDayNum[date.getDay() as 1]];
+  const dayOfWeek = schedule[dayjs(date).format('YYYY-MM-DD')];
 
   if (!dayOfWeek) {
     return [];
   }
+
+  return dayOfWeek.lessons;
 
   const lessons: Lesson[] = [];
 
@@ -144,12 +146,13 @@ export function useSchedule(): UseScheduleHook {
   const today = dayjs();
 
   const { data, status } = useQuery('schedule', () =>
-    lkClient.getSchedule(token, group),
+    lkClient.getSchedule(token, group, true),
   );
 
   if (status == 'success' && isFirstRender) {
     setIsFirstRender(false);
     setSchedule([
+      ...getWeekSchedule(data, today.subtract(1, 'week')),
       ...getWeekSchedule(data, today),
       ...getWeekSchedule(data, today.add(1, 'week')),
     ]);

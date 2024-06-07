@@ -37,14 +37,18 @@ export const lessonSchema = z.object({
   rooms: z.array(z.string()),
 });
 
-export const studentScheduleSchema = z.object({
-  Monday: z.object({ lessons: z.array(lessonSchema) }),
-  Tuesday: z.object({ lessons: z.array(lessonSchema) }),
-  Wednesday: z.object({ lessons: z.array(lessonSchema) }),
-  Thursday: z.object({ lessons: z.array(lessonSchema) }),
-  Friday: z.object({ lessons: z.array(lessonSchema) }),
-  Saturday: z.object({ lessons: z.array(lessonSchema) }),
-});
+export const studentScheduleSchema = z.record(
+  z.object({ lessons: z.array(lessonSchema) }),
+);
+
+// export const studentScheduleSchema = z.object({
+//   Monday: z.object({ lessons: z.array(lessonSchema) }),
+//   Tuesday: z.object({ lessons: z.array(lessonSchema) }),
+//   Wednesday: z.object({ lessons: z.array(lessonSchema) }),
+//   Thursday: z.object({ lessons: z.array(lessonSchema) }),
+//   Friday: z.object({ lessons: z.array(lessonSchema) }),
+//   Saturday: z.object({ lessons: z.array(lessonSchema) }),
+// });
 
 export const pdInfoSchema = z.object({
   curator: z.string(),

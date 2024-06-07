@@ -24,8 +24,8 @@ function NewsBlock({ news }: { news: News }) {
       <TouchableOpacity onPress={showModal}>
         <Surface
           style={{
-            width: 140,
-            height: 140,
+            width: 160,
+            height: 160,
             borderRadius: 8,
             marginBottom: 16,
             padding: 8,

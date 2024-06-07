@@ -69,7 +69,7 @@ export class LkClient {
       searchParams: {
         getSchedule: true,
         token,
-        ...(session ? { session: true } : { group }),
+        ...(session ? { session: 1 } : { group }),
       },
     });
   }

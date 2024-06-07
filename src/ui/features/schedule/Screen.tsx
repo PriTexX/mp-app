@@ -39,11 +39,13 @@ export function ScheduleScreen() {
         onScrollToIndexFailed={() => {}}
         onEndReachedThreshold={0.5}
         disableIntervalMomentum
-        onLayout={() =>
+        onLayout={() => {
+          const idx = today.day() == 0 ? 13 : today.day() - 1 + 7;
+
           listRef.current?.scrollToIndex({
-            index: today.day() == 0 ? 6 : today.day() - 1,
-          })
-        }
+            index: idx,
+          });
+        }}
         snapToInterval={Dimensions.get('screen').width}
         ListEmptyComponent={() => (
           <View style={{ alignItems: 'center' }}>

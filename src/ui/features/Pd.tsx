@@ -18,8 +18,8 @@ function ContentBlock({
       <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 12 }}>
         {blockTitle}
       </Text>
-      {childs.map((c) => (
-        <Text>
+      {childs.map((c, i) => (
+        <Text key={i}>
           {c.title}:{' '}
           <Text
             style={{ fontWeight: 'bold', fontSize: 15, color: c.contentColor }}

@@ -88,7 +88,8 @@ export function LoginScreen() {
             right={
               <TextInput.Icon
                 icon="login"
-                onPress={() => setActivityAnimating(!activityAnimating)}
+                forceTextInputFocus={true}
+                // onPress={() => setActivityAnimating(!activityAnimating)}
               />
             }
           />

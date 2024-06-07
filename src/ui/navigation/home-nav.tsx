@@ -36,7 +36,7 @@ const MemoizedDrawerContent = memo(() => {
     <SafeAreaView>
       <PaperDrawer.Section title="Основные">
         <PaperDrawer.Item
-          label="Home"
+          label="Профиль"
           icon="home"
           onPress={() => navigate('main')}
         />
